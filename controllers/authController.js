@@ -20,6 +20,26 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+// get all users
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = [];
+        const usersRef = db.ref("users");
+        const snapshot = await usersRef.once("value");
+        
+        snapshot.forEach((childSnapshot) => {
+            users.push({ id: childSnapshot.key, ...childSnapshot.val() });
+        });
+        
+        res.status(200).send(users);
+    } catch (error) {
+        console.error("Error during fetching users:", error);
+        res.status(500).send(error.message);
+    }
+};
+
+
+
 exports.register = async (req, res) => {
     const { username, email, password } = req.body;
     console.log("Register request received:", { username, email, password });
@@ -109,6 +129,10 @@ exports.login = async (req, res) => {
         });
 
         console.log("User logged in successfully");
+
+        // tampilkan username user di console log
+        console.log("Username user:", user.username);
+
         res.status(200).send({ accessToken, userId: user.id });
     } catch (error) {
         console.error("Error during login:", error);
@@ -119,7 +143,6 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
-    console.log("token", token);
     try {
         
         if (token) {

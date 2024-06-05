@@ -11,6 +11,10 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout", authenticateToken, authController.logout);
 
+// User routes
+router.get("/users", authenticateToken, authController.getAllUsers);
+
+
 /*
 // Book routes
 router.get("/books/home", authenticateToken, bookController.getHomeBooks);
