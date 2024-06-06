@@ -32,8 +32,8 @@ class Repository(
         userPreference.logout()
     }
 
-    fun register(username: String, email: String, password: String): Call<RegisterResponse> {
-        return apiService.userRegister(username, email, password)
+    fun register(name: String, email: String, password: String): Call<RegisterResponse> {
+        return apiService.userRegister(name, email, password)
     }
 
     fun login(email: String, password: String): Call<LoginResponse> {
