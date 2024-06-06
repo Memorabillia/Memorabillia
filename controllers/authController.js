@@ -30,15 +30,13 @@ exports.getAllUsers = async (req, res) => {
         snapshot.forEach((childSnapshot) => {
             users.push({ id: childSnapshot.key, ...childSnapshot.val() });
         });
-        
+
         res.status(200).send(users);
     } catch (error) {
         console.error("Error during fetching users:", error);
         res.status(500).send(error.message);
     }
 };
-
-
 
 exports.register = async (req, res) => {
     const { username, email, password } = req.body;
@@ -84,7 +82,7 @@ exports.register = async (req, res) => {
         password: hashedPassword,
         });
         console.log("User data saved to Realtime Database");
-
+        
         res.status(201).send({ uid: userId });
     } catch (error) {
         console.error("Error during registration:", error);
@@ -98,11 +96,11 @@ exports.login = async (req, res) => {
         if (!email || !password) {
         return res.status(400).send("Email and password are required");
         }
-
+        
         if (!validateEmail(email)) {
         return res.status(400).send("Invalid email format");
         }
-
+        
         const userSnapshot = await db
         .ref("users")
         .orderByChild("email")

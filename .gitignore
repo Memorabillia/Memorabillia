@@ -1,12 +1,9 @@
 /node_modules
-/controllers/bookController.js
-/controllers/activityController.js
 /service/serviceAccountKey.json
+/service/serviceAccountKey(Owner).json
 
 # dotenv environment variables file
 .env
 
 # npm package lock file
 package-lock.json
-
-

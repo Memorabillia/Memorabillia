@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
-const serviceAccount = require("./service/serviceAccountKey.json"); // ganti dengan path ke service account key
+const serviceAccount = require("./service/serviceAccountKey.json"); 
 require("dotenv").config();
 
 const app = express();
@@ -16,7 +16,8 @@ admin.initializeApp({
 const routes = require("./routes/index");
 app.use("/", routes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
