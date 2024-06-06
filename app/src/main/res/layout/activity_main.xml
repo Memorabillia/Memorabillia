@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.MainActivity"
+    android:textColor="?android:textColorPrimary">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/welcome"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/logoImageView"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonGridLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcomeTextView">
+
+        <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/button_currently_reading"
+            style="@style/CustomMaterialButton1"
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:layout_margin="10dp"
+            android:text="@string/button_Currently_Reading"
+            app:layout_constraintEnd_toStartOf="@+id/button_want_to_read"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_want_to_read"
+            style="@style/CustomMaterialButton1"
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:layout_margin="10dp"
+            android:text="@string/button_Want_To_Read"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_currently_reading"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_finished_reading"
+            style="@style/CustomMaterialButton2"
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_width="200dp"
+            android:layout_height="75dp"
+            android:layout_margin="10dp"
+            android:text="@string/button_Finished_Reading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_want_to_read" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/recommendedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Articles "
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonGridLayout"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/lightRed"
+        app:layout_constraintTop_toBottomOf="@id/recommendedTextView"
+        app:layout_constraintStart_toStartOf="parent"
+       />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommendationsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/MyBottomNavigationViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        android:background="@drawable/bottom_navigation_background"
+        app:itemActiveIndicatorStyle="@style/CustomActiveIndicatorStyle"
+        app:itemBackground="@drawable/nav_item_background"
+        app:menu="@menu/menu"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
