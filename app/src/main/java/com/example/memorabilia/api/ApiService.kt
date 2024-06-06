@@ -16,9 +16,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("register")
     fun userRegister(
-        @Field("name") name: String?,
-        @Field("email") email: String?,
-        @Field("password") password: String?
+        @Field("username") username: String,
+        @Field("email") email: String,
+        @Field("password") password: String
     ): Call<RegisterResponse>
 
     @FormUrlEncoded
