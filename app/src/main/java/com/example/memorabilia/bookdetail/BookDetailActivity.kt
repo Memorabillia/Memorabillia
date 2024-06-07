@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -28,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
 
@@ -74,11 +76,21 @@ class BookDetailActivity : AppCompatActivity() {
 
     private fun addToCurrentlyReading(article: Article?) {
         article?.let {
-            val userId = getCurrentUserId() // Mendapatkan ID pengguna yang sedang login
+            val userId = getCurrentUserId() // Get the ID of the currently logged in user
             val currentlyReadingBook = CurrentlyReadingBook(0, userId, it.title, it.author,
                 it.urlToImage, 0)
             CoroutineScope(Dispatchers.IO).launch {
-                currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)
+                // Check if the book already exists in the "Currently Reading" list
+                val existingBook = currentlyReadingBookDao.getBook(userId, it.title)
+                if (existingBook != null) {
+                    // If the book already exists, show a message to the user
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@BookDetailActivity, "This book is already in your 'Currently Reading' list", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    // If the book doesn't exist, add it to the list
+                    currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)
+                }
             }
         }
     }
@@ -108,10 +120,12 @@ class BookDetailActivity : AppCompatActivity() {
     private fun displayCurrentlyReadingBookDetails(book: CurrentlyReadingBook) {
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
         val authorTextView = findViewById<TextView>(R.id.authorTextView)
+        val contentTextView = findViewById<TextView>(R.id.contentTextView)
         val articleImageView = findViewById<ImageView>(R.id.bookImageView)
 
         titleTextView?.text = book.title
         authorTextView?.text = book.author
+        contentTextView?.text = intent.getStringExtra("content") // Get the description from the intent
         Glide.with(this)
             .load(book.urlToImage)
             .placeholder(R.drawable.ic_launcher_background)

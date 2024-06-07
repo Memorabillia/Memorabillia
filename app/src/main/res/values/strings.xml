@@ -50,4 +50,5 @@
     <string name="our_vision">Our Vision</string>
     <string name="our_vision_content">Our vision is to create a world where reading is accessible to everyone. We believe that reading is a powerful tool for personal growth and development, and we want to make it easy for readers to discover new books and connect with other book lovers.</string>
     <string name="for_all_your_reading_needs">For all your reading needs</string>
+    <string name="deleteButton">Delete</string>
 </resources>
