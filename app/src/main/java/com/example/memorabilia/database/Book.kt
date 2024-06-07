@@ -27,7 +27,8 @@ data class CurrentlyReadingBook(
     val title: String,
     val author: String,
     val urlToImage: String,
-    var progress: Int
+    var progress: Int,
+    val description: String = "",
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
