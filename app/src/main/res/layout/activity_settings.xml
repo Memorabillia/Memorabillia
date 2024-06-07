@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".settings.SettingsActivity">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ProfileTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/setting_title"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/logoImageView"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView"
+         />
+
+
+    <LinearLayout
+        android:layout_width="11dp"
+        android:layout_height="103dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ProfileTextView"/>
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ProfileTextView"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/ThemeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/theme_profile"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/Themeline"
+                android:layout_width="70dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lightRed" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ThemeButton"
+                style="@style/CustomMaterialButton1"
+                android:layout_width="292dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/changetheme" />
+
+            <TextView
+                android:id="@+id/AboutTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="45dp"
+                android:text="@string/about"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/Aboutline"
+                android:layout_width="70dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lightRed" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/AboutButton"
+                style="@style/CustomMaterialButton1"
+                android:layout_width="292dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/about_us" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/AppGuideButton"
+                style="@style/CustomMaterialButton1"
+                android:layout_width="292dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="1dp"
+                android:text="@string/app_guide" />
+            <TextView
+                android:id="@+id/LogoutTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="45dp"
+                android:text="@string/log_out"
+                android:textSize="20sp" />
+            <View
+                android:id="@+id/LogoutLine"
+                android:layout_width="70dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lightRed" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/LogoutButton"
+                style="@style/CustomMaterialButton1"
+                android:layout_width="292dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/log_out" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/MyBottomNavigationViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        android:background="@drawable/bottom_navigation_background"
+        app:itemActiveIndicatorStyle="@style/CustomActiveIndicatorStyle"
+        app:itemBackground="@drawable/nav_item_background"
+        app:menu="@menu/menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
