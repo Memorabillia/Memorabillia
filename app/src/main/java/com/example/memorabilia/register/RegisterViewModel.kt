@@ -10,9 +10,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterViewModel(private val repository: Repository) : ViewModel() {
-    fun register(name: String, email: String, password: String, callback: (RegisterResponse?) -> Unit) {
+    fun register(username: String, email: String, password: String, callback: (RegisterResponse?) -> Unit) {
         viewModelScope.launch {
-            repository.register(name, email, password).enqueue(object : Callback<RegisterResponse> {
+            repository.register(username, email, password).enqueue(object : Callback<RegisterResponse> {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                     callback(response.body())
                 }
