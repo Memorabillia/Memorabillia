@@ -1,0 +1,19 @@
+package com.example.memorabilia.api.response
+
+import com.google.gson.annotations.SerializedName
+
+
+data class BookResponse(
+    @SerializedName("books") val books: List<Book>
+
+)
+
+
+data class Book(
+    @SerializedName("Author") val author: String?,
+    @SerializedName("Cover")val cover: String?,
+    @SerializedName("ISBN")val isbn: String?,
+    @SerializedName("Publisher")val publisher : String?,
+    @SerializedName("Title")val title: String?,
+    @SerializedName("Year-Of-Publication")val yearOfPublication: String?
+)
