@@ -12,44 +12,53 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.memorabilia.R
 import com.example.memorabilia.api.response.Article
+import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.bookdetail.BookDetailActivity
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.ArticleViewHolder>() {
-    private var articles: List<Article> = listOf()
+class MainAdapter : RecyclerView.Adapter<MainAdapter.BookViewHolder>() {
+    private var books: List<Book> = listOf()
 
-    fun setData(articles: List<Article>) {
-        this.articles = articles
+    fun setData(books: List<Book>) {
+        this.books = books
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
-        return ArticleViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_main, parent, false)
+        return BookViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val article = articles[position]
-        holder.titleTextView.text = article.title
-        holder.authorTextView.text = article.author
-        Glide.with(holder.itemView.context)
-            .load(article.urlToImage)
-            .apply(RequestOptions().placeholder(R.drawable.ic_launcher_background))
-            .into(holder.articleImageView)
-        holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, BookDetailActivity::class.java)
-            intent.putExtra("article", article)
-            it.context.startActivity(intent)
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
+        val book = books[position]
+        if (book != null) {
+            holder.bind(book)
+            Glide.with(holder.itemView.context)
+                .load(book.cover)
+                .into(holder.bookImageView)
+
+
+//        holder.itemView.setOnClickListener {
+//            val intent = Intent(it.context, BookDetailActivity::class.java)
+//            intent.putExtra("book", book)
+//            it.context.startActivity(intent)
+//        }
         }
     }
 
     override fun getItemCount(): Int {
-        return articles.size
+        return books.size
     }
 
-    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val authorTextView: TextView = itemView.findViewById(R.id.authorTextView)
-        val articleImageView: ImageView = itemView.findViewById(R.id.bookImageView)
+        val bookImageView: ImageView = itemView.findViewById(R.id.bookImageView)
 
+        fun bind(book: Book) {
+            titleTextView.text = book.title
+            authorTextView.text = book.author
+
+        }
     }
+
 }

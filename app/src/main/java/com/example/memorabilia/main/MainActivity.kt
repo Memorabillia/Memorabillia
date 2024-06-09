@@ -3,6 +3,9 @@ package com.example.memorabilia.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,15 +13,20 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.api.ApiService
+import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.api.response.NewsResponse
 import com.example.memorabilia.currentlyreading.CurrentlyReadingActivity
 import com.example.memorabilia.data.DummyData
 import com.example.memorabilia.data.Repository
+import com.example.memorabilia.data.UserPreference
+import com.example.memorabilia.data.dataStore
 import com.example.memorabilia.databinding.ActivityMainBinding
 import com.example.memorabilia.di.Injection
 import com.example.memorabilia.search.SearchActivity
@@ -29,8 +37,10 @@ import com.example.memorabilia.welcome.WelcomeActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import java.util.Locale
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -40,6 +50,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var repository: Repository
     private lateinit var apiService: ApiService
     private lateinit var adapter: MainAdapter
+    private var tokenInvalidMessageShown = false
+
 
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
@@ -66,9 +78,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val userPreference = UserPreference.getInstance(applicationContext.dataStore)
+
+        lifecycleScope.launch {
+            val user = userPreference.getSession().first()
+            if (user.token.isNotEmpty()) {
+                apiService = ApiConfig.getApiService(user.token)
+                showRandomBooks()
+            } else {
+                if (!tokenInvalidMessageShown) {
+                    tokenInvalidMessageShown = true
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Invalid token or token not found, please login",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("MainActivity", "Invalid token or token not found")
+                }
+                startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
+                finish()
+            }
+        }
+
         // Setup RecyclerView
         val recyclerView = binding.recommendationsRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = layoutManager
         adapter = MainAdapter()
         recyclerView.adapter = adapter
 
@@ -109,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
-
+//
 //        val buttonFinished = binding.buttonFinishedReading
 //        buttonFinished.setOnClickListener {
 //            val intent = Intent(this, FinishedReadingActivity::class.java)
@@ -118,33 +153,56 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 
-        // Show books category
-        showBooksArticles()
+
     }
 
-    private fun showBooksArticles() {
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                val response: Response<NewsResponse> = apiService.searchArticles("books", "db03c64333b7461da81b46755c01d5dc")
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    body?.let {
-                        adapter.setData(it.articles)
-                    } ?: run {
-                        // Use dummy data if response body is null
-                        adapter.setData(DummyData.getDummyArticles())
+    private fun showRandomBooks() {
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.Main) {
+            var retryCount = 0
+            var success = false
+            while (!success && retryCount < 5) {
+                try {
+                    val response: Response<List<Book>> = apiService.getAllBooks()
+                    if (response.isSuccessful) {
+                        val books = response.body()?.shuffled()?.take(20) // Ambil maksimal 20 buku secara acak
+                        if (books != null) {
+                            adapter.setData(books)
+                            success = true
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "Response body is null",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Failed to load books from API",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("MainActivity", "Response: ${response.code()} - ${response.message()}")
                     }
-                } else {
-                    // Use dummy data if API call is not successful
-                    adapter.setData(DummyData.getDummyArticles())
-                    Toast.makeText(applicationContext, "Failed to load articles from API", Toast.LENGTH_SHORT).show()
+                } catch (e: SocketTimeoutException) {
+                    e.printStackTrace()
+                    retryCount++
+                    Log.e("MainActivity", "Error: ${e.message}, retrying...")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(
+                        applicationContext,
+                        "Failed to load books from API",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("MainActivity", "Error: ${e.message}", e)
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                // Use dummy data if an exception occurs
-                adapter.setData(DummyData.getDummyArticles())
-                Toast.makeText(applicationContext, "Failed to load articles. Using dummy data.", Toast.LENGTH_SHORT).show()
             }
+            progressBar.visibility = View.GONE
         }
     }
+
+
+
 }

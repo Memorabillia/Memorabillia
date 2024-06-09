@@ -36,8 +36,9 @@ interface ApiService {
         @Query("q") query: String
     ): Response<List<Book>>
 
-    @GET("books/{isbn}")
-    fun getBookDetails(@Path("isbn") isbn: String): Response<BookResponse>
+    @GET("books")
+    suspend fun getAllBooks(
+    ): Response<List<Book>>
 
     @GET("everything")
     suspend fun searchArticles(
