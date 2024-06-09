@@ -10,6 +10,7 @@ import androidx.room.TypeConverters
 @TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
     abstract fun currentlyReadingBookDao(): CurrentlyReadingBookDao
+    abstract fun wantToReadBookDao(): WantToReadBookDao
 
     companion object {
         @Volatile

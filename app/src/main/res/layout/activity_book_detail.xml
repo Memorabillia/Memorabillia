@@ -37,32 +37,112 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <View
+                android:id="@+id/BookImageViewTitleline"
+                android:layout_width="400dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/lightRed" />
+
+            <TextView
+                android:id="@+id/authorTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/authorTitle"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/authorTitleline"
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/lightRed" />
+
             <TextView
                 android:id="@+id/authorTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="18sp" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/publisherTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/publisherTitle"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/publisherTitleline"
+                android:layout_width="110dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/lightRed" />
 
             <TextView
                 android:id="@+id/publisherTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="18sp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="16dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/isbnTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/isbnTitle"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/isbnTitleline"
+                android:layout_width="60dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/lightRed" />
 
             <TextView
                 android:id="@+id/isbnTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
                 android:textSize="18sp" />
+            <TextView
+                android:id="@+id/yearTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/yearTitle"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/yearTitleline"
+                android:layout_width="60dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/lightRed" />
 
             <TextView
                 android:id="@+id/yearTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
                 android:textSize="18sp" />
 
         </LinearLayout>

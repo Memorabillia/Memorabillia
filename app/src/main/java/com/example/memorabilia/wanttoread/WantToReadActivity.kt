@@ -1,59 +1,63 @@
 package com.example.memorabilia.wanttoread
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memorabilia.R
+import com.example.memorabilia.currentlyreading.CurrentlyReadingAdapter
+import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.database.BookDatabase
+import com.example.memorabilia.database.WantToReadBookDao
 import com.example.memorabilia.search.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-//class WantToReadActivity : AppCompatActivity() {
-//    @SuppressLint("MissingInflatedId")
-//
-//    private val wantToReadBooks: MutableList<SearchAdapter.Book> = mutableListOf()
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        setContentView(R.layout.activity_want_to_read)
-//
-//        val recyclerView = findViewById<RecyclerView>(R.id.WantToReadRecyclerView)
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//        val adapter = WantToReadAdapter(wantToReadBooks)
-//        recyclerView.adapter = adapter
-//
-//        val bookDatabase = BookDatabase.getDatabase(this)
-//        val bookDao = bookDatabase.wantToReadBookDao()
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val books = bookDao.getAll()
-//            withContext(Dispatchers.Main) {
-//                wantToReadBooks.addAll(books.map {
-//                    SearchAdapter.Book(it.id,it.title, it.author, it.imageUrl, it.synopsis, it.rating)
-//                })
-//                adapter.notifyDataSetChanged()
-//            }
-//        }
-//
-//        // Retrieve the book's information passed from BookDetailActivity
-//        val bookTitle = intent.getStringExtra("BOOK_TITLE")
-//        val bookAuthor = intent.getStringExtra("BOOK_AUTHOR")
-//        val bookImageResId = intent.getIntExtra("BOOK_IMAGE", 0)
-//
-//
-//        if (bookTitle != null && bookAuthor != null && bookImageResId != 0) {
-//            val newBook = SearchAdapter.Book(0,bookTitle, bookAuthor, bookImageResId, "", 0.0f)
-//            wantToReadBooks.add(newBook)
-//            adapter.notifyItemInserted(wantToReadBooks.size - 1)
-//            val book = WantToReadBook(0, bookTitle, bookAuthor, bookImageResId, "", 0.0f)
-//            CoroutineScope(Dispatchers.IO).launch {
-//                bookDao.insert(book)
-//            }
-//        }
-//    }
-//}
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
+private lateinit var userPreference: UserPreference
+class WantToReadActivity : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: WantToReadAdapter
+    private lateinit var wantToReadBookDao: WantToReadBookDao
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_want_to_read)
+
+        userPreference = UserPreference.getInstance(this.dataStore)
+        wantToReadBookDao = BookDatabase.getDatabase(this).wantToReadBookDao()
+
+        recyclerView = findViewById(R.id.WantToReadRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = WantToReadAdapter(wantToReadBookDao)
+        recyclerView.adapter = adapter
+        displayWantToReadBooks()
+    }
+
+    private fun displayWantToReadBooks() {
+        val userId = getCurrentUserId()
+        CoroutineScope(Dispatchers.IO).launch {
+            val books = wantToReadBookDao.getAllBooks(userId)
+            withContext(Dispatchers.Main) {
+                adapter.setData(books)
+            }
+        }
+    }
+
+    private fun getCurrentUserId(): String {
+        val userModel = runBlocking {
+            userPreference.getSession().firstOrNull()
+        }
+        return userModel?.email ?: ""
+    }
+}

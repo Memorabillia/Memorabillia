@@ -45,7 +45,11 @@ class SearchActivity : AppCompatActivity() {
                 apiService = ApiConfig.getApiService(user.token)
                 setupUI()
             } else {
-                Toast.makeText(this@SearchActivity, "No token found, please login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@SearchActivity,
+                    "No token found, please login",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -60,12 +64,14 @@ class SearchActivity : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     true
                 }
+
                 R.id.searchnav -> true
                 R.id.profilenav -> {
                     startActivity(Intent(applicationContext, SettingsActivity::class.java))
                     overridePendingTransition(0, 0)
                     true
                 }
+
                 else -> false
             }
         }
@@ -83,40 +89,58 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchBooks(query: String) {
+    private fun searchBooks(title: String) {
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.Main) {
             try {
-                val response: Response<List<Book>> = apiService.searchBooks(query)
+                val response: Response<List<Book>> = apiService.searchBooks(title)
                 if (response.isSuccessful) {
                     val books = response.body()
                     if (books != null) {
-                        if (books.isNotEmpty()) {
-                            adapter.setData(books)
-
-                            for (book in books) {
-                                Log.d("Book", "Title: ${book.title}, Author: ${book.author}, Cover: ${book.cover}")
+                        val matchingBooks = books.filter { it?.title?.contains(title, ignoreCase = true) == true }
+                        if (matchingBooks.isNotEmpty()) {
+                            for (book in matchingBooks) {
+                                if (book != null) {
+                                    Log.d(
+                                        "Book",
+                                        "Title: ${book.title ?: "Unknown"}, Author: ${book.author ?: "Unknown"}, Cover: ${book.cover ?: "Unknown"}"
+                                    )
+                                }
                             }
+                            adapter.setData(matchingBooks)
                         } else {
-                            Toast.makeText(applicationContext, "No books found for \"$query\"", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "No books found for \"$title\"",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(applicationContext, "Response body is null", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Response body is null",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Failed to load books from API", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Failed to load books from API",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     Log.d("SearchActivity", "Response: ${response.code()} - ${response.message()}")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(applicationContext, "Failed to load books from API", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Failed to load books from API",
+                    Toast.LENGTH_SHORT
+                ).show()
                 Log.e("SearchActivity", "Error: ${e.message}", e)
             }
             progressBar.visibility = View.GONE
         }
     }
-
-
-
 }

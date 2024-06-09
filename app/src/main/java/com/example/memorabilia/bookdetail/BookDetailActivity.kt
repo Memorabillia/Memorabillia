@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -25,15 +26,19 @@ import com.example.memorabilia.database.FinishedReadingArticle
 import com.example.memorabilia.database.BookDatabase
 import com.example.memorabilia.database.CurrentlyReadingBook
 import com.example.memorabilia.database.CurrentlyReadingBookDao
+import com.example.memorabilia.database.WantToReadBook
+import com.example.memorabilia.database.WantToReadBookDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
 
 class BookDetailActivity : AppCompatActivity() {
+    private lateinit var wantToReadBookDao: WantToReadBookDao
     private lateinit var currentlyReadingBookDao: CurrentlyReadingBookDao
     private lateinit var userPreference: UserPreference
 
@@ -43,42 +48,27 @@ class BookDetailActivity : AppCompatActivity() {
 
         userPreference = UserPreference.getInstance(this.dataStore)
         currentlyReadingBookDao = BookDatabase.getDatabase(this).currentlyReadingBookDao()
+        wantToReadBookDao = BookDatabase.getDatabase(this).wantToReadBookDao()
 
-        val isbn = intent.getStringExtra("isbn")
-        if (isbn != null) {
-            fetchBookDetails(isbn)
+        val book = intent.getSerializableExtra("book") as? Book
+        if (book != null) {
+            displayBookDetails(book)
+
+        val manageBookButton = findViewById<Button>(R.id.manageBookButton)
+        manageBookButton.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Manage Book")
+                .setItems(arrayOf("Currently Reading", "Want to Read", "Finished Reading")) { _, which ->
+                    when (which) {
+                        0 -> addToCurrentlyReading(book)
+                        1 -> addToWantToRead(book)
+                        //2 -> addToFinishedReading(article)
+                    }
+                }
+                .show()
         }
     }
-
-    private fun fetchBookDetails(isbn: String) {
-        val book = fetchBookDetailsFromAPI(isbn)
-        displayBookDetails(book)
     }
-
-    private fun fetchBookDetailsFromAPI(isbn: String): Book {
-        val userPreference = UserPreference.getInstance(this.dataStore)
-        val token = runBlocking {
-            userPreference.getSession().firstOrNull()?.token ?: ""
-        }
-
-        // Use ApiConfig to get the ApiService
-        val apiService = ApiConfig.getApiService(token)
-
-        // Make a network request to fetch book details using the provided ISBN
-        val response = apiService.getBookDetails("isbn:$isbn")
-
-        // Check if the request was successful and the response body is not null
-        if (response.isSuccessful && response.body() != null) {
-            // Return the first book from the response (assuming it's a list of books)
-            return response.body()!!.books.first()
-        } else {
-            // Handle the case when the request fails or the response body is null
-            throw Exception("Failed to fetch book details")
-        }
-    }
-
-
-
     private fun displayBookDetails(book: Book) {
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
         val authorTextView = findViewById<TextView>(R.id.authorTextView)
@@ -100,14 +90,36 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
 
-//    private fun addToCurrentlyReading(book: Book) {
-//        val userId = getCurrentUserId()
-//        val currentlyReadingBook = CurrentlyReadingBook(0, userId, book.title, book.author,
-//            book.cover, 0)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)
-//        }
-//    }
+    private fun addToCurrentlyReading(book: Book) {
+        val userId = getCurrentUserId()
+        val currentlyReadingBook = CurrentlyReadingBook(0, userId, book.title, book.author,
+            book.cover, 0)
+        CoroutineScope(Dispatchers.IO).launch {
+            val existingBook = book.title?.let { currentlyReadingBookDao.getBook(userId, it) }
+            if (existingBook != null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@BookDetailActivity, "This book is already in your 'Currently Reading' list", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)
+            }
+        }
+    }
+    private fun addToWantToRead(book: Book) {
+        val userId = getCurrentUserId()
+        val wantToReadBook = WantToReadBook(0, userId, book.title, book.author,
+            book.cover)
+        CoroutineScope(Dispatchers.IO).launch {
+            val existingBook = book.title?.let { wantToReadBookDao.getBook(userId, it) }
+            if (existingBook != null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@BookDetailActivity, "This book is already in your 'Want To Read' list", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                wantToReadBookDao.insertWantToRead(wantToReadBook)
+            }
+        }
+    }
 
     private fun getCurrentUserId(): String {
         val userModel = runBlocking {

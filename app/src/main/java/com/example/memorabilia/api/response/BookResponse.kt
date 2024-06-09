@@ -1,6 +1,7 @@
 package com.example.memorabilia.api.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
 data class BookResponse(
@@ -16,4 +17,4 @@ data class Book(
     @SerializedName("Publisher")val publisher : String?,
     @SerializedName("Title")val title: String?,
     @SerializedName("Year-Of-Publication")val yearOfPublication: String?
-)
+) : Serializable

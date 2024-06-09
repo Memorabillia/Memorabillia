@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,6 +18,7 @@ import com.example.memorabilia.database.CurrentlyReadingBookDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyReadingBookDao) : RecyclerView.Adapter<CurrentlyReadingAdapter.ArticleViewHolder>() {
     private var books: List<CurrentlyReadingBook> = listOf()
@@ -36,7 +38,7 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
         holder.titleTextView.text = book.title
         holder.authorTextView.text = book.author
         Glide.with(holder.itemView.context)
-            .load(book.urlToImage)
+            .load(book.cover)
             .apply(RequestOptions().placeholder(R.drawable.ic_launcher_background))
             .into(holder.articleImageView)
         holder.progressSeekBar.progress = book.progress
@@ -68,6 +70,23 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
                 // No action needed here
             }
         })
+        holder.deleteButton.setOnClickListener {
+            AlertDialog.Builder(it.context)
+                .setTitle("Delete Book")
+                .setMessage("Are you sure you want to delete this book?")
+                .setPositiveButton("Yes") { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        currentlyReadingBookDao.deleteBook(book)
+                        withContext(Dispatchers.Main) {
+                            // Remove the book from the list and notify the adapter
+                            books = books.filter { it.id != book.id }
+                            notifyDataSetChanged()
+                        }
+                    }
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -80,6 +99,8 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
         val articleImageView: ImageView = itemView.findViewById(R.id.profileImageView)
         val progressSeekBar: SeekBar = itemView.findViewById(R.id.progressSeekBar)
         val progressTextView: TextView = itemView.findViewById(R.id.progressTextView)
+        val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
+
     }
 }
 

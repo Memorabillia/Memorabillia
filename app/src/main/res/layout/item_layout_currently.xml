@@ -5,19 +5,20 @@
     android:layout_height="wrap_content"
     android:background="@drawable/round_corners_item"
     android:orientation="horizontal"
-    android:padding="16dp"
+    android:padding="8dp"
     android:layout_marginTop="32dp">
 
     <ImageView
         android:id="@+id/profileImageView"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/logo" />
 
     <LinearLayout
         android:layout_width="11dp"
-        android:layout_height="103dp"
+        android:layout_height="100dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingLeft="16dp">
@@ -27,43 +28,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_rv"
-            android:maxLines="1"
+            android:maxLines="2"
             android:ellipsize="end"
-            android:textSize="18sp"
-            android:layout_weight="1" />
-
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/authorTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsthin"
+            android:fontFamily="@font/poppinsitalic"
             android:text="@string/author_rv"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
+
         <LinearLayout
-            android:layout_width="220dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <SeekBar
                 android:id="@+id/progressSeekBar"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:max="100" />
 
             <TextView
                 android:id="@+id/progressTextView"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/checkMarkImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="0%"
                 android:textColor="@android:color/holo_green_light"
                 android:textSize="18sp" />
+
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="35dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete_logoo"
+        android:background="@drawable/round_corners_item"
+        android:contentDescription="@string/deleteButton" />
 
 </LinearLayout>

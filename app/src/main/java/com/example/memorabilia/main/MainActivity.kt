@@ -24,6 +24,7 @@ import com.example.memorabilia.di.Injection
 import com.example.memorabilia.search.SearchActivity
 import com.example.memorabilia.settings.SettingsActivity
 import com.example.memorabilia.theme.ThemeViewModel
+import com.example.memorabilia.wanttoread.WantToReadActivity
 import com.example.memorabilia.welcome.WelcomeActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
@@ -102,13 +103,13 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
-//        val buttonWantToRead = binding.buttonWantToRead
-//        buttonWantToRead.setOnClickListener {
-//            val intent = Intent(this, WantToReadActivity::class.java)
-//            startActivity(intent)
-//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-//        }
-//
+        val buttonWantToRead = binding.buttonWantToRead
+        buttonWantToRead.setOnClickListener {
+            val intent = Intent(this, WantToReadActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
+
 //        val buttonFinished = binding.buttonFinishedReading
 //        buttonFinished.setOnClickListener {
 //            val intent = Intent(this, FinishedReadingActivity::class.java)

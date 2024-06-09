@@ -26,6 +26,7 @@
             android:id="@+id/titleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="3"
             android:text="@string/title_rv"
             android:textSize="18sp" />
 
@@ -33,9 +34,9 @@
             android:id="@+id/authorTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsthin"
+            android:fontFamily="@font/poppinsitalic"
             android:text="@string/author_rv"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
         
 
 
