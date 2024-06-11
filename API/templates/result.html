@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+</head>
+<body>
+    <h1>Top Recommendations</h1>
+    <h4>Based on your user id, this is the recomendation for you:</h4>
+    <ul>
+        {% for recommendation in recommendations %}
+        <li>{{ recommendation }}</li>
+        {% endfor %}
+    </ul>
+    <form action="/" method="get">
+        <button type="submit">Go Back</button>
+    </form>
+</body>
+</html>
