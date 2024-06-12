@@ -2,12 +2,14 @@ package com.example.memorabilia.data
 
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.api.ApiService
+import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.api.response.LoginResponse
 import com.example.memorabilia.api.response.RegisterResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import retrofit2.Call
+import retrofit2.Response
 
 class Repository(
     private var apiService: ApiService,
@@ -50,6 +52,15 @@ class Repository(
 
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
         userPreference.saveThemeSetting(isDarkModeActive)
+    }
+
+    suspend fun getBookRecommendations(): List<Book> {
+        val response = apiService.getBookRecommendations()
+        if (response.isSuccessful) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("Failed to fetch book recommendations: ${response.message()}")
+        }
     }
 
     companion object {

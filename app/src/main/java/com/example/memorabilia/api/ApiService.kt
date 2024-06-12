@@ -24,12 +24,15 @@ interface ApiService {
         @Field("password") password: String?
     ): Call<RegisterResponse>
 
+
+
     @FormUrlEncoded
     @POST("login")
     fun userLogin(
         @Field("email") email: String?,
         @Field("password") password: String?
     ): Call<LoginResponse>
+
 
     @GET("books")
     suspend fun searchBooks(
@@ -40,15 +43,8 @@ interface ApiService {
     suspend fun getAllBooks(
     ): Response<List<Book>>
 
-    @GET("everything")
-    suspend fun searchArticles(
-        @Query("q") query: String,
-        @Query("apiKey") apiKey: String
-    ): Response<NewsResponse>
 
-    @GET("everything")
-    suspend fun getArticleDetail(
-        @Query("q") query: String,
-        @Query("apiKey") apiKey: String
-    ): Response<NewsResponse>
+    @POST("recommend")
+    suspend fun getBookRecommendations(
+    ): Response<List<Book>>
 }
