@@ -11,6 +11,7 @@ data class BookResponse(
 
 
 data class Book(
+    @SerializedName("bookId") val bookid: String?,
     @SerializedName("Author") val author: String?,
     @SerializedName("Cover")val cover: String?,
     @SerializedName("ISBN")val isbn: String?,
