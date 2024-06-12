@@ -7,7 +7,8 @@
     android:background="@drawable/rounded_button"
     android:padding="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginTop="32dp">
+    android:layout_marginTop="32dp"
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,19 +26,26 @@
 
         <TextView
             android:id="@+id/titleTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="@string/title_rv"
-            android:textSize="18sp" />
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:textColor="?android:attr/textColorPrimary"/>
 
         <TextView
             android:id="@+id/authorTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsthin"
+            android:fontFamily="@font/poppinsitalic"
             android:text="@string/author_rv"
-            android:textSize="14sp" />
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/lightGray"/>
 
     </LinearLayout>
 

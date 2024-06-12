@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.data.dataStore
 import com.example.memorabilia.databinding.ActivityMainBinding
 import com.example.memorabilia.di.Injection
+import com.example.memorabilia.finishedreading.FinishedReadingActivity
 import com.example.memorabilia.search.SearchActivity
 import com.example.memorabilia.settings.SettingsActivity
 import com.example.memorabilia.wanttoread.WantToReadActivity
@@ -86,14 +88,18 @@ class MainActivity : AppCompatActivity() {
         adapter = MainAdapter()
         recyclerView.adapter = adapter
 
-        // Observe book recommendations
+
+        binding.progressBar.visibility = View.VISIBLE
+
         viewModel.bookRecommendations.observe(this) { books ->
+            binding.progressBar.visibility = View.GONE
             if (books != null) {
                 adapter.setData(books)
             } else {
                 Toast.makeText(this, "Failed to load recommendations", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Setup BottomNavigationView
         val bottomNavigationView = binding.bottomNavigation
@@ -132,13 +138,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//
-//        val buttonFinished = binding.buttonFinishedReading
-//        buttonFinished.setOnClickListener {
-//            val intent = Intent(this, FinishedReadingActivity::class.java)
-//            startActivity(intent)
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-//        }
+
+        val buttonFinished = binding.buttonFinishedReading
+        buttonFinished.setOnClickListener {
+            val intent = Intent(this, FinishedReadingActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
 
 
 

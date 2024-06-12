@@ -30,6 +30,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.BookViewHolder>() {
         holder.bind(book)
         Glide.with(holder.itemView.context)
             .load(book.cover)
+            .placeholder(R.drawable.logo) // Placeholder image
+            .error(R.drawable.ic_launcher_background) // Error image
             .into(holder.bookImageView)
 
         holder.itemView.setOnClickListener {

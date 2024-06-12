@@ -6,7 +6,8 @@
     android:background="@drawable/round_corners_item"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:layout_marginTop="32dp">
+    android:layout_marginTop="32dp"
+    android:textColor="?android:textColorPrimary">
 
     <ImageView
         android:id="@+id/bookImageView"
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="@string/title_rv"
+
             android:textSize="18sp" />
 
         <TextView

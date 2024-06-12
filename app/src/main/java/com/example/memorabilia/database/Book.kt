@@ -7,6 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.memorabilia.api.response.Article
 import com.example.memorabilia.api.response.Book
+import java.io.Serializable
 
 
 @Entity(tableName = "currently_reading")
@@ -17,128 +18,93 @@ data class CurrentlyReadingBook(
     val title: String ?,
     val author: String ?,
     val cover: String ?,
+    val publisher : String ?,
+    val isbn : String ?,
+    val yearOfPublication : String ?,
     var progress: Int
-) : Parcelable {
+) : Serializable
 
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readInt()
-    )
 
-    constructor(userId: String, book: Book, progress: Int) : this(
-        0,
-        userId,
-        book.title,
-        book.author,
-        book.cover,
-        progress
-    )
+    @Entity(tableName = "want_to_read")
+    data class WantToReadBook(
+        @PrimaryKey(autoGenerate = true)
+        val id: Int,
+        val userId: String,
+        val title: String?,
+        val author: String?,
+        val cover: String?
+    ) : Parcelable {
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(userId)
-        parcel.writeString(title)
-        parcel.writeString(author)
-        parcel.writeString(cover)
-        parcel.writeInt(progress)
-    }
+        constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: ""
+        )
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<CurrentlyReadingBook> {
-        override fun createFromParcel(parcel: Parcel): CurrentlyReadingBook {
-            return CurrentlyReadingBook(parcel)
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeInt(id)
+            parcel.writeString(userId)
+            parcel.writeString(title)
+            parcel.writeString(author)
+            parcel.writeString(cover)
         }
 
-        override fun newArray(size: Int): Array<CurrentlyReadingBook?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
-@Entity(tableName = "want_to_read")
-data class WantToReadBook(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val userId: String,
-    val title: String ?,
-    val author: String ?,
-    val cover: String ?
-) : Parcelable {
-
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: ""
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(userId)
-        parcel.writeString(title)
-        parcel.writeString(author)
-        parcel.writeString(cover)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<WantToReadBook> {
-        override fun createFromParcel(parcel: Parcel): WantToReadBook {
-            return WantToReadBook(parcel)
+        override fun describeContents(): Int {
+            return 0
         }
 
-        override fun newArray(size: Int): Array<WantToReadBook?> {
-            return arrayOfNulls(size)
+        companion object CREATOR : Parcelable.Creator<WantToReadBook> {
+            override fun createFromParcel(parcel: Parcel): WantToReadBook {
+                return WantToReadBook(parcel)
+            }
+
+            override fun newArray(size: Int): Array<WantToReadBook?> {
+                return arrayOfNulls(size)
+            }
         }
     }
-}
 
-@Entity(tableName = "finished_reading")
-data class FinishedReadingBook(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val userId: String,
-    val title: String ?,
-    val author: String ?,
-    val cover: String ?
-) : Parcelable {
+    @Entity(tableName = "finished_reading")
+    data class FinishedReadingBook(
+        @PrimaryKey(autoGenerate = true)
+        val id: Int,
+        val userId: String,
+        val title: String?,
+        val author: String?,
+        val cover: String?
+    ) : Parcelable {
 
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: ""
-    )
+        constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: ""
+        )
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(userId)
-        parcel.writeString(title)
-        parcel.writeString(author)
-        parcel.writeString(cover)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<WantToReadBook> {
-        override fun createFromParcel(parcel: Parcel): WantToReadBook {
-            return WantToReadBook(parcel)
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeInt(id)
+            parcel.writeString(userId)
+            parcel.writeString(title)
+            parcel.writeString(author)
+            parcel.writeString(cover)
         }
 
-        override fun newArray(size: Int): Array<WantToReadBook?> {
-            return arrayOfNulls(size)
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<WantToReadBook> {
+            override fun createFromParcel(parcel: Parcel): WantToReadBook {
+                return WantToReadBook(parcel)
+            }
+
+            override fun newArray(size: Int): Array<WantToReadBook?> {
+                return arrayOfNulls(size)
+            }
         }
     }
-}
+
+

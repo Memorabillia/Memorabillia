@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
@@ -97,7 +98,13 @@ class SettingsActivity : AppCompatActivity() {
         }
         val logoutButton = findViewById<MaterialButton>(R.id.LogoutButton)
         logoutButton.setOnClickListener {
+            // Change the theme to light mode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            // Save the theme setting to the data store
+            themeViewModel.saveThemeSetting(false)
+            // Log out the user
             viewModel.logout()
+            // Start the WelcomeActivity
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

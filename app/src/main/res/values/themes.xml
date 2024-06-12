@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Memorabilia" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/lightRed</item>
-        <item name="colorPrimaryVariant">@color/darkColor</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/lightGray</item>
-        <item name="colorSecondaryVariant">@color/darkColor</item>
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/lightRed</item>
-        <item name="android:statusBarColor">@color/darkColor</item>
+        <item name="android:statusBarColor">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
 
         <item name="android:fontFamily">@font/poppinssemibold</item>

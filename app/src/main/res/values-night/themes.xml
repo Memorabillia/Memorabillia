@@ -10,6 +10,7 @@
         <item name="colorOnSecondary">@color/darkColor</item>
         <item name="android:statusBarColor">@color/darkColor</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="MyTextInputEditTextStyle" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
