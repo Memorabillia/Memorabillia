@@ -1,6 +1,5 @@
 const admin = require("firebase-admin");
 const bcrypt = require("bcrypt");
-const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -20,13 +19,38 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+// Function to generate a random 5-digit integer
+function generateRandomUserId() {
+    return Math.floor(10000 + Math.random() * 90000);
+}
+
+// Function to check if a userId exists in the database
+async function isUserIdExists(userId) {
+    const userRef = db.ref("users/" + userId);
+    const snapshot = await userRef.once("value");
+    return snapshot.exists();
+}
+
+// Function to generate a unique random 6-digit integer ID
+async function generateUniqueUserId() {
+    let userId;
+    let exists = true;
+
+    while (exists) {
+        userId = generateRandomUserId();
+        exists = await isUserIdExists(userId);
+    }
+
+    return userId;
+}
+
 // get all users
 exports.getAllUsers = async (req, res) => {
     try {
         const users = [];
         const usersRef = db.ref("users");
         const snapshot = await usersRef.once("value");
-        
+
         snapshot.forEach((childSnapshot) => {
             users.push({ id: childSnapshot.key, ...childSnapshot.val() });
         });
@@ -43,46 +67,40 @@ exports.register = async (req, res) => {
     console.log("Register request received:", { username, email, password });
     try {
         if (!username || !email || !password) {
-        return res.status(400).send("Username, email, and password are required");
+            return res.status(400).send("Username, email, and password are required");
         }
 
         if (!validateEmail(email)) {
-        return res.status(400).send("Invalid email format");
+            return res.status(400).send("Invalid email format");
         }
 
         if (!validatePassword(password)) {
-        return res
-            .status(400)
-            .send(
-            "Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a digit"
-            );
+            return res.status(400).send("Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a digit");
         }
 
         // Check for existing username before hashing password
         const existingUserRef = db
-        .ref("users")
-        .orderByChild("username")
-        .equalTo(username);
+            .ref("users")
+            .orderByChild("username")
+            .equalTo(username);
         const snapshot = await existingUserRef.once("value");
 
         if (snapshot.exists()) {
-        return res
-            .status(409)
-            .send("Username already exists. Please choose a different one.");
+            return res.status(409).send("Username already exists. Please choose a different one.");
         }
 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         console.log("Password hashed successfully");
 
-        const userId = uuidv4();
+        const userId = await generateUniqueUserId();
 
         await db.ref("users/" + userId).set({
-        username,
-        email,
-        password: hashedPassword,
+            username,
+            email,
+            password: hashedPassword,
         });
         console.log("User data saved to Realtime Database");
-        
+
         res.status(201).send({ uid: userId });
     } catch (error) {
         console.error("Error during registration:", error);
@@ -94,41 +112,37 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
-        return res.status(400).send("Email and password are required");
+            return res.status(400).send("Email and password are required");
         }
-        
+
         if (!validateEmail(email)) {
-        return res.status(400).send("Invalid email format");
+            return res.status(400).send("Invalid email format");
         }
-        
+
         const userSnapshot = await db
-        .ref("users")
-        .orderByChild("email")
-        .equalTo(email)
-        .once("value");
+            .ref("users")
+            .orderByChild("email")
+            .equalTo(email)
+            .once("value");
 
         if (!userSnapshot.exists()) {
-        return res.status(404).send("User not found");
+            return res.status(404).send("User not found");
         }
 
         let user = null;
         userSnapshot.forEach((childSnapshot) => {
-        user = { id: childSnapshot.key, ...childSnapshot.val() };
+            user = { id: childSnapshot.key, ...childSnapshot.val() };
         });
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-        return res.status(401).send("Invalid password");
+            return res.status(401).send("Invalid password");
         }
 
-        // Generate a JWT token
-        const accessToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWTSECRET, {
-        expiresIn: "1h",
-        });
+        const accessToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWTSECRET);
 
         console.log("User logged in successfully");
 
-        // tampilkan username user di console log
         console.log("Username user:", user.username);
 
         res.status(200).send({ accessToken, userId: user.id });
@@ -142,12 +156,11 @@ exports.logout = async (req, res) => {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
     try {
-        
         if (token) {
             blacklist.push(token);
         }
-        
-        res.clearCookie("accessToken"); 
+
+        res.clearCookie("accessToken");
 
         console.log("User logged out");
 

@@ -1,7 +1,7 @@
 const { importBooksFromGCS } = require("../models/book");
 
 const bucketName = "c241-ps182-bucket";
-const fileName = "bookcleaned.csv";
+const fileName = "supercleaned.csv";
 
 importBooksFromGCS(bucketName, fileName)
     .then(() => {

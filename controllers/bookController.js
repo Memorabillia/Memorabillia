@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-
+const axios = require("axios");
 const db = admin.database();
 
 exports.getBooks = async (req, res) => {
@@ -47,6 +47,45 @@ exports.getUserBooks = async (req, res) => {
         const snapshot = await db.ref(`user_books/${userId}`).once("value");
         const userBooks = snapshot.val();
         res.status(200).send(userBooks);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+exports.recommend = async (req, res) => {
+    let userId = req.user.userId; // Extracted user ID from token
+    
+    // Convert userId to float32
+    userId = new Float32Array([Number(userId)])[0];
+    
+    try {
+        // Call the Flask API to get recommended book titles
+        const response = await axios.post("http://127.0.0.1:5000/recommend", {
+            user_id: userId,
+        });
+
+        const recommendedISBNs = response.data.recommendations;
+
+        // Retrieve complete book details from Firebase based on the recommended titles
+        const booksRef = db.ref("books");
+        const snapshot = await booksRef.once("value");
+        const books = snapshot.val();
+
+        const recommendedBooks = [];
+
+        recommendedISBNs.forEach(isbn => {
+            for (const bookId in books) {
+                if (books[bookId].ISBN === isbn) {
+                    recommendedBooks.push({
+                        bookId,
+                        ...books[bookId]
+                    });
+                    break;
+                }
+            }
+        });
+
+        res.status(200).send(recommendedBooks);
     } catch (error) {
         res.status(500).send(error.message);
     }

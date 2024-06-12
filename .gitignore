@@ -1,6 +1,5 @@
 /node_modules
-/service/serviceAccountKey.json
-/service/serviceAccountKey(Owner).json
+/service
 
 # dotenv environment variables file
 .env

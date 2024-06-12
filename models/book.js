@@ -35,7 +35,7 @@ exports.importBooksFromGCS = async (bucketName, fileName) => {
             .on("end", async () => {
                 try {
                     const updates = {};
-                    // const counterRef = db.ref("bookId");
+                    const counterRef = db.ref("bookId");
                     let counterSnapshot = await counterRef.once("value");
                     let bookId = counterSnapshot.val() || 0;
 
@@ -45,7 +45,7 @@ exports.importBooksFromGCS = async (bucketName, fileName) => {
                     });
 
                     await db.ref().update(updates);
-                    // await counterRef.set(bookId);
+                    await counterRef.set(bookId);
                     console.log(
                         "Books imported successfully from Google Cloud Storage to Firebase."
                     );

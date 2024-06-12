@@ -15,7 +15,7 @@ admin.initializeApp({
 const db = admin.database();
 
 // Path ke node 'books' yang ingin dihapus
-const pathToBooksNode = "/bookId";
+const pathToBooksNode = "books";
 
 // Hapus node 'books'
 db.ref(pathToBooksNode)
