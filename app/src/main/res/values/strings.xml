@@ -55,4 +55,6 @@
     <string name="isbnTitle">ISBN</string>
     <string name="yearTitle">Year</string>
     <string name="deleteButton">Delete</string>
+    <string name="finished">Finished</string>
+    <string name="Start_Reading">Start Reading</string>
 </resources>

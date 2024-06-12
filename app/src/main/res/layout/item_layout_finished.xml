@@ -27,6 +27,7 @@
             android:id="@+id/titleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:text="@string/title_rv"
             android:textSize="18sp" />
 
@@ -54,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="14dp"
                 android:layout_toEndOf="@id/checkMarkImageView"
                 android:text="Finished!"
                 android:textColor="@android:color/holo_green_light"

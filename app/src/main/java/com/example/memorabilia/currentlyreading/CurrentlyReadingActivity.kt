@@ -12,6 +12,7 @@ import com.example.memorabilia.R
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.database.BookDatabase
 import com.example.memorabilia.database.CurrentlyReadingBookDao
+import com.example.memorabilia.database.FinishedReadingBookDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -26,6 +27,7 @@ class CurrentlyReadingActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CurrentlyReadingAdapter
     private lateinit var currentlyReadingBookDao: CurrentlyReadingBookDao
+    private lateinit var finishedReadingBookDao: FinishedReadingBookDao
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +36,11 @@ class CurrentlyReadingActivity : AppCompatActivity() {
 
         userPreference = UserPreference.getInstance(this.dataStore)
         currentlyReadingBookDao = BookDatabase.getDatabase(this).currentlyReadingBookDao()
+        finishedReadingBookDao = BookDatabase.getDatabase(this).finishedReadingBookDao()
 
         recyclerView = findViewById(R.id.rvCurrentlyReading)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CurrentlyReadingAdapter(currentlyReadingBookDao)
+        adapter = CurrentlyReadingAdapter(currentlyReadingBookDao, finishedReadingBookDao)
         recyclerView.adapter = adapter
 
 

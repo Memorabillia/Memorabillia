@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [CurrentlyReadingBook::class, WantToReadBook::class, FinishedReadingArticle::class], version = 1)
+@Database(entities = [CurrentlyReadingBook::class, WantToReadBook::class, FinishedReadingBook::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
     abstract fun currentlyReadingBookDao(): CurrentlyReadingBookDao
     abstract fun wantToReadBookDao(): WantToReadBookDao
+
+    abstract fun finishedReadingBookDao(): FinishedReadingBookDao
 
     companion object {
         @Volatile

@@ -14,6 +14,7 @@ import com.example.memorabilia.R
 import com.example.memorabilia.currentlyreading.CurrentlyReadingAdapter
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.database.BookDatabase
+import com.example.memorabilia.database.CurrentlyReadingBookDao
 import com.example.memorabilia.database.WantToReadBookDao
 import com.example.memorabilia.search.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ class WantToReadActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WantToReadAdapter
     private lateinit var wantToReadBookDao: WantToReadBookDao
+    private lateinit var currentlyReadingBookDao: CurrentlyReadingBookDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +38,11 @@ class WantToReadActivity : AppCompatActivity() {
 
         userPreference = UserPreference.getInstance(this.dataStore)
         wantToReadBookDao = BookDatabase.getDatabase(this).wantToReadBookDao()
+        currentlyReadingBookDao = BookDatabase.getDatabase(this).currentlyReadingBookDao()
 
         recyclerView = findViewById(R.id.WantToReadRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = WantToReadAdapter(wantToReadBookDao)
+        adapter = WantToReadAdapter(wantToReadBookDao,currentlyReadingBookDao)
         recyclerView.adapter = adapter
         displayWantToReadBooks()
     }

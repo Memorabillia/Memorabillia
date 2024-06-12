@@ -22,10 +22,11 @@ import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.currentlyreading.CurrentlyReadingActivity
 import com.example.memorabilia.data.DummyData
 import com.example.memorabilia.data.UserPreference
-import com.example.memorabilia.database.FinishedReadingArticle
 import com.example.memorabilia.database.BookDatabase
 import com.example.memorabilia.database.CurrentlyReadingBook
 import com.example.memorabilia.database.CurrentlyReadingBookDao
+import com.example.memorabilia.database.FinishedReadingBook
+import com.example.memorabilia.database.FinishedReadingBookDao
 import com.example.memorabilia.database.WantToReadBook
 import com.example.memorabilia.database.WantToReadBookDao
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "us
 class BookDetailActivity : AppCompatActivity() {
     private lateinit var wantToReadBookDao: WantToReadBookDao
     private lateinit var currentlyReadingBookDao: CurrentlyReadingBookDao
+    private lateinit var finishedReadingBookDao: FinishedReadingBookDao
     private lateinit var userPreference: UserPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,7 @@ class BookDetailActivity : AppCompatActivity() {
         userPreference = UserPreference.getInstance(this.dataStore)
         currentlyReadingBookDao = BookDatabase.getDatabase(this).currentlyReadingBookDao()
         wantToReadBookDao = BookDatabase.getDatabase(this).wantToReadBookDao()
+        finishedReadingBookDao = BookDatabase.getDatabase(this).finishedReadingBookDao()
 
         val book = intent.getSerializableExtra("book") as? Book
         if (book != null) {
@@ -62,7 +65,7 @@ class BookDetailActivity : AppCompatActivity() {
                     when (which) {
                         0 -> addToCurrentlyReading(book)
                         1 -> addToWantToRead(book)
-                        //2 -> addToFinishedReading(article)
+                        2 -> addToFinishedReading(book)
                     }
                 }
                 .show()
@@ -121,6 +124,21 @@ class BookDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun addToFinishedReading(book: Book) {
+        val userId = getCurrentUserId()
+        val finishedReadingBook = FinishedReadingBook(0, userId, book.title, book.author,
+            book.cover)
+        CoroutineScope(Dispatchers.IO).launch {
+            val existingBook = book.title?.let { finishedReadingBookDao.getBook(userId, it) }
+            if (existingBook != null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@BookDetailActivity, "This book is already in your 'Finished Reading List", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                finishedReadingBookDao.insertFinishedReading(finishedReadingBook)
+            }
+        }
+    }
     private fun getCurrentUserId(): String {
         val userModel = runBlocking {
             userPreference.getSession().firstOrNull()

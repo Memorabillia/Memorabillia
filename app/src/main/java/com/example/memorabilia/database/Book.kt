@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.memorabilia.api.response.Article
+import com.example.memorabilia.api.response.Book
 
 
 @Entity(tableName = "currently_reading")
@@ -26,6 +27,15 @@ data class CurrentlyReadingBook(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt()
+    )
+
+    constructor(userId: String, book: Book, progress: Int) : this(
+        0,
+        userId,
+        book.title,
+        book.author,
+        book.cover,
+        progress
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -93,7 +103,42 @@ data class WantToReadBook(
 }
 
 @Entity(tableName = "finished_reading")
-data class FinishedReadingArticle(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "article") val article: Article
-)
+data class FinishedReadingBook(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val userId: String,
+    val title: String ?,
+    val author: String ?,
+    val cover: String ?
+) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeString(userId)
+        parcel.writeString(title)
+        parcel.writeString(author)
+        parcel.writeString(cover)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<WantToReadBook> {
+        override fun createFromParcel(parcel: Parcel): WantToReadBook {
+            return WantToReadBook(parcel)
+        }
+
+        override fun newArray(size: Int): Array<WantToReadBook?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

@@ -35,3 +35,17 @@ interface WantToReadBookDao {
     @Delete
     suspend fun deleteBook(book: WantToReadBook)
 }
+@Dao
+interface FinishedReadingBookDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFinishedReading(book: FinishedReadingBook)
+
+    @Query("SELECT * FROM finished_reading WHERE userId = :userId")
+    suspend fun getAllBooks(userId: String): List<FinishedReadingBook>
+
+    @Query("SELECT * FROM finished_reading WHERE userId = :userId AND title = :title LIMIT 1")
+    suspend fun getBook(userId: String, title: String): FinishedReadingBook?
+
+    @Delete
+    suspend fun deleteBook(book: FinishedReadingBook)
+}
