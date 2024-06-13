@@ -20,11 +20,10 @@ router.get("/users", authenticateToken, authController.getAllUsers);
 
 // Book routes
 router.get('/books', authenticateToken, bookController.getBooks);
-/*
-router.get('/books/:id', authenticateToken, getBookById);
-router.put('/books/:id/status', authenticateToken, updateBookStatus);
-router.get('/user/books', authenticateToken, getUserBooks);
-*/
+router.get("/books/:id", authenticateToken, bookController.getBookById);
+router.put('/books/:id/status', authenticateToken, bookController.updateBookStatus);
+router.get("/user/books", authenticateToken, bookController.getUserBooks);
+
 
 // Recommendation routes
 router.post('/recommend', authenticateToken, bookController.recommend); 
