@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.TransitionInflater
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -62,10 +63,17 @@ class BookDetailActivity : AppCompatActivity() {
         if (book != null) {
             when (book) {
                 is Book -> displayBookDetails(book)
-                is CurrentlyReadingBook -> displayBookDetailsCurrently(book)
-                is WantToReadBook -> displayBookDetailsWant(book)
-                is FinishedReadingBook -> displayBookDetailsFinished(book)
-
+                is CurrentlyReadingBook -> {
+                    displayBookDetailsCurrently(book)
+                    hideManageBookButton()
+                }
+                is WantToReadBook -> {displayBookDetailsWant(book)
+                    hideManageBookButton()
+                }
+                is FinishedReadingBook -> {
+                    displayBookDetailsFinished(book)
+                    hideManageBookButton()
+                }
             }
         }
 
@@ -221,6 +229,14 @@ class BookDetailActivity : AppCompatActivity() {
             }
             .show()
     }
+
+    private fun hideManageBookButton() {
+        val manageBookButton = findViewById<Button>(R.id.manageBookButton)
+        manageBookButton.visibility = View.GONE
+    }
+
+
+
     private fun getCurrentUserId(): String {
         val userModel = runBlocking {
             userPreference.getSession().firstOrNull()
@@ -228,6 +244,3 @@ class BookDetailActivity : AppCompatActivity() {
         return userModel?.email ?: ""
     }
 }
-
-
-

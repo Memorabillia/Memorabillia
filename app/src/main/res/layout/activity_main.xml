@@ -5,9 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity"
+    tools:context=".main.MainActivity">
 
-    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="365dp"
+        android:background="@drawable/half_circle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/logoImageView"
@@ -86,7 +93,7 @@
         android:id="@+id/recommendedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:text="Recommended For You"
         android:textSize="20sp"
         android:layout_marginStart="10dp"

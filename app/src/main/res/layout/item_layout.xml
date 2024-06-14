@@ -6,6 +6,7 @@
     android:background="@drawable/round_corners_item"
     android:orientation="horizontal"
     android:padding="16dp"
+    android:elevation="6dp"
     android:layout_marginTop="32dp"
     >
     <FrameLayout
@@ -46,7 +47,8 @@
             android:maxLines="3"
             android:textColor="@color/title_color"
             android:text="@string/title_rv"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginEnd="28dp"/>
 
         <TextView
             android:id="@+id/authorTextView"

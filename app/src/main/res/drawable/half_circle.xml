@@ -1,0 +1,18 @@
+<!-- res/drawable/half_circle_bottom.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorCircleShadow" />
+            <corners android:bottomLeftRadius="120dp" android:bottomRightRadius="120dp" />
+        </shape>
+    </item>
+
+    <!-- Main half circle -->
+    <item android:bottom="14dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorCircle" />
+            <corners android:bottomLeftRadius="120dp" android:bottomRightRadius="120dp" />
+        </shape>
+    </item>
+</layer-list>

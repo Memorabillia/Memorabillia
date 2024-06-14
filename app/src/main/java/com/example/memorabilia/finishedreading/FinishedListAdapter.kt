@@ -1,5 +1,6 @@
 package com.example.memorabilia.finishedreading
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -45,10 +47,16 @@ class FinishedListAdapter(private val finishedReadingBookDao: FinishedReadingBoo
             .apply(RequestOptions().placeholder(R.drawable.ic_launcher_background))
             .into(holder.articleImageView)
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, BookDetailActivity::class.java)
+        holder.itemView.setOnClickListener { view ->
+            val intent = Intent(view.context, BookDetailActivity::class.java)
             intent.putExtra("book", book)
-            it.context.startActivity(intent)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                view.context as Activity,
+                view.findViewById<View>(R.id.profileImageView),
+                "bookImageTransition")
+
+            view.context.startActivity(intent, options.toBundle())
         }
     }
 

@@ -17,4 +17,7 @@
     <color name="author_color">@color/black</color>
     <color name="title_color">@color/white</color>
 
+    <color name="colorCircle">#424242</color>
+    <color name="colorCircleShadow">#66555555</color>
+
 </resources>

@@ -8,12 +8,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
     private val THEME_KEY = booleanPreferencesKey("theme_setting")
+    private val RECOMMENDATIONS_KEY = stringPreferencesKey("recommendations")
 
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
@@ -52,6 +55,19 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+    fun saveRecommendations(json: String) {
+        runBlocking {
+            dataStore.edit { preferences ->
+                preferences[RECOMMENDATIONS_KEY] = json
+            }
+        }
+    }
+
+    fun getRecommendations(): String {
+        return runBlocking {
+            dataStore.data.first()[RECOMMENDATIONS_KEY] ?: ""
+        }
+    }
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null

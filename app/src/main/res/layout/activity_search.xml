@@ -46,6 +46,7 @@
         android:layout_marginTop="16dp"
         android:hint="Search Title"
         android:padding="6dp"
+        android:background="@drawable/edittext_outline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintTop_toBottomOf="@id/line" />
@@ -60,6 +61,7 @@
         android:background="@drawable/rounded_button"
         android:gravity="center"
         android:textColor="@color/darkColor"
+        android:elevation="8dp"
         app:icon="@drawable/ic_search2"
         app:iconTint="@color/darkColor"
         app:cornerRadius="25dp"

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -19,6 +20,7 @@ import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.api.ApiService
+import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.currentlyreading.CurrentlyReadingActivity
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.data.dataStore
@@ -29,6 +31,7 @@ import com.example.memorabilia.search.SearchActivity
 import com.example.memorabilia.settings.SettingsActivity
 import com.example.memorabilia.wanttoread.WantToReadActivity
 import com.example.memorabilia.welcome.WelcomeActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -91,13 +95,24 @@ class MainActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
 
         viewModel.bookRecommendations.observe(this) { books ->
-            binding.progressBar.visibility = View.GONE
             if (books != null) {
                 adapter.setData(books)
+                saveRecommendationsToCache(books)
+                binding.progressBar.visibility = View.GONE
             } else {
                 Toast.makeText(this, "Failed to load recommendations", Toast.LENGTH_SHORT).show()
             }
         }
+
+        val cachedRecommendations = getCachedRecommendations()
+        if (cachedRecommendations != null) {
+            showRecommendations(cachedRecommendations)
+            binding.progressBar.visibility = View.GONE
+        } else {
+            viewModel.fetchBookRecommendations()
+            binding.progressBar.visibility = View.VISIBLE
+        }
+
 
 
         // Setup BottomNavigationView
@@ -147,6 +162,21 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+    private fun getCachedRecommendations(): List<Book>? {
+        val userPreference = UserPreference.getInstance(applicationContext.dataStore)
+        val json = userPreference.getRecommendations()
+        return Gson().fromJson(json, Array<Book>::class.java)?.toList()
+    }
+
+    private fun saveRecommendationsToCache(recommendations: List<Book>) {
+        val userPreference = UserPreference.getInstance(applicationContext.dataStore)
+        val json = Gson().toJson(recommendations)
+        userPreference.saveRecommendations(json)
+    }
+
+    private fun showRecommendations(recommendations: List<Book>) {
+        adapter.setData(recommendations)
     }
 
 }
