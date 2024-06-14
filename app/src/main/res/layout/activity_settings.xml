@@ -24,6 +24,7 @@
         android:layout_marginStart="10dp"
         android:text="@string/setting_title"
         android:textSize="30sp"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintStart_toEndOf="@id/logoImageView"
         app:layout_constraintTop_toBottomOf="@id/logoImageView"
          />
@@ -60,6 +61,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:text="@string/theme_profile"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
 
             <View
@@ -86,6 +88,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="45dp"
                 android:text="@string/about"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
 
             <View
@@ -120,6 +123,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="45dp"
                 android:text="@string/log_out"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
             <View
                 android:id="@+id/LogoutLine"

@@ -17,12 +17,29 @@
         android:padding="8dp"
         android:layout_marginTop="16dp">
 
-        <ImageView
-            android:id="@+id/bookImageView"
-            android:layout_width="120dp"
-            android:layout_height="140dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo" />
+        <FrameLayout
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/Image_unknown"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_broken_image_24" />
+
+            <ImageView
+                android:id="@+id/bookImageView"
+                android:layout_width="120dp"
+                android:layout_height="140dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo"
+                android:transitionName="bookImageTransition"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/titleTextView"
@@ -32,8 +49,7 @@
             android:text="@string/title_rv"
             android:gravity="center_horizontal"
             android:textSize="16sp"
-            android:layout_marginTop="8dp"
-            android:textColor="?android:attr/textColorPrimary"/>
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/authorTextView"
@@ -45,7 +61,7 @@
             android:gravity="center_horizontal"
             android:layout_marginTop="8dp"
 
-            android:textColor="@color/lightGray"/>
+            android:textColor="@color/author_color"/>
 
     </LinearLayout>
 

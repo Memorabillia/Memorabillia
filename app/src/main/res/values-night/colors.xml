@@ -13,9 +13,8 @@
     <color name="LightGrey">#757575</color>
     <color name="Purple">#850F8D</color>
     <color name="Green">#4CAF50</color>
-    <color name="Transparent">#00ffffff</color>
 
-    <color name="author_color">@color/white</color>
-    <color name="title_color">@color/black</color>
+    <color name="author_color">@color/black</color>
+    <color name="title_color">@color/white</color>
 
 </resources>

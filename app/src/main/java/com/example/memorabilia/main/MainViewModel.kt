@@ -6,12 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.memorabilia.api.ApiService
 import com.example.memorabilia.api.response.Book
 import com.example.memorabilia.data.Repository
 import com.example.memorabilia.data.UserModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class MainViewModel(
     private val repository: Repository,

@@ -49,3 +49,4 @@ interface FinishedReadingBookDao {
     @Delete
     suspend fun deleteBook(book: FinishedReadingBook)
 }
+

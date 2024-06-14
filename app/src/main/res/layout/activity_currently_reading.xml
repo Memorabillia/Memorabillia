@@ -24,6 +24,7 @@
         android:layout_marginStart="10dp"
         android:text="@string/Currently_reading"
         android:textSize="12sp"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/logoImageView"
         app:layout_constraintTop_toBottomOf="@id/logoImageView" />
@@ -36,6 +37,7 @@
         android:layout_marginStart="10dp"
         android:text="@string/Currently_reading_title"
         android:textSize="24sp"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/logoImageView"
         app:layout_constraintTop_toBottomOf="@id/currentlyReadingTextView" />

@@ -1,18 +1,14 @@
 package com.example.memorabilia.api
 
 import com.example.memorabilia.api.response.Book
-import com.example.memorabilia.api.response.BookResponse
 import com.example.memorabilia.api.response.LoginResponse
-import com.example.memorabilia.api.response.NewsResponse
 import com.example.memorabilia.api.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -37,10 +33,6 @@ interface ApiService {
     @GET("books")
     suspend fun searchBooks(
         @Query("q") query: String
-    ): Response<List<Book>>
-
-    @GET("books")
-    suspend fun getAllBooks(
     ): Response<List<Book>>
 
 

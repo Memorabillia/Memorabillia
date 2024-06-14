@@ -62,7 +62,7 @@ class WantToReadAdapter(private val wantToReadBookDao: WantToReadBookDao,
                 .setPositiveButton("Yes") { _, _ ->
                     CoroutineScope(Dispatchers.IO).launch {
                         // Create a new FinishedReadingBook object with the same details as the CurrentlyReadingBook object
-                        val currentlyReadingBook = CurrentlyReadingBook(0, book.userId, book.title, book.author, book.cover, "0", "0","0",0 )
+                        val currentlyReadingBook = CurrentlyReadingBook(0, book.userId, book.title, book.author, book.cover, book.publisher, book.isbn, book.yearOfPublication, 0 )
 
                         // Insert the FinishedReadingBook object into the FinishedReadingBookDao
                         currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)

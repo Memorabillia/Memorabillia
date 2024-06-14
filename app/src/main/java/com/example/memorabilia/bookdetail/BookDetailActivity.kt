@@ -2,12 +2,16 @@ package com.example.memorabilia.bookdetail
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.TransitionInflater
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -39,6 +43,13 @@ class BookDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+        val transition = ChangeBounds()
+        transition.duration = 500
+
+        window.sharedElementEnterTransition = transition
+        window.sharedElementExitTransition = transition
+
         setContentView(R.layout.activity_book_detail)
 
         userPreference = UserPreference.getInstance(this.dataStore)
@@ -46,11 +57,14 @@ class BookDetailActivity : AppCompatActivity() {
         wantToReadBookDao = BookDatabase.getDatabase(this).wantToReadBookDao()
         finishedReadingBookDao = BookDatabase.getDatabase(this).finishedReadingBookDao()
 
+
         val book = intent.getSerializableExtra("book")
         if (book != null) {
             when (book) {
                 is Book -> displayBookDetails(book)
                 is CurrentlyReadingBook -> displayBookDetailsCurrently(book)
+                is WantToReadBook -> displayBookDetailsWant(book)
+                is FinishedReadingBook -> displayBookDetailsFinished(book)
 
             }
         }
@@ -105,6 +119,46 @@ class BookDetailActivity : AppCompatActivity() {
             .into(articleImageView)
     }
 
+    private fun displayBookDetailsWant(book: WantToReadBook) {
+        val titleTextView = findViewById<TextView>(R.id.titleTextView)
+        val authorTextView = findViewById<TextView>(R.id.authorTextView)
+        val publisherTextView = findViewById<TextView>(R.id.publisherTextView)
+        val articleImageView = findViewById<ImageView>(R.id.bookImageView)
+        val isbnTextView = findViewById<TextView>(R.id.isbnTextView)
+        val yearTextView = findViewById<TextView>(R.id.yearTextView)
+
+        titleTextView.text = book.title ?: "Unknown Title"
+        authorTextView.text = book.author ?: "Unknown Author"
+        publisherTextView.text = book.publisher ?: "Unknown Publisher"
+        isbnTextView.text = book.isbn ?: "Unknown ISBN"
+        yearTextView.text = book.yearOfPublication ?: "Unknown Year"
+        Glide.with(this)
+            .load(book.cover)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_profile)
+            .into(articleImageView)
+    }
+
+    private fun displayBookDetailsFinished(book: FinishedReadingBook) {
+        val titleTextView = findViewById<TextView>(R.id.titleTextView)
+        val authorTextView = findViewById<TextView>(R.id.authorTextView)
+        val publisherTextView = findViewById<TextView>(R.id.publisherTextView)
+        val articleImageView = findViewById<ImageView>(R.id.bookImageView)
+        val isbnTextView = findViewById<TextView>(R.id.isbnTextView)
+        val yearTextView = findViewById<TextView>(R.id.yearTextView)
+
+        titleTextView.text = book.title ?: "Unknown Title"
+        authorTextView.text = book.author ?: "Unknown Author"
+        publisherTextView.text = book.publisher ?: "Unknown Publisher"
+        isbnTextView.text = book.isbn ?: "Unknown ISBN"
+        yearTextView.text = book.yearOfPublication ?: "Unknown Year"
+        Glide.with(this)
+            .load(book.cover)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_profile)
+            .into(articleImageView)
+    }
+
 
 
 
@@ -126,7 +180,7 @@ class BookDetailActivity : AppCompatActivity() {
     private fun addToWantToRead(book: Book) {
         val userId = getCurrentUserId()
         val wantToReadBook = WantToReadBook(0, userId, book.title, book.author,
-            book.cover)
+            book.cover, book.publisher, book.isbn, book.yearOfPublication,)
         CoroutineScope(Dispatchers.IO).launch {
             val existingBook = book.title?.let { wantToReadBookDao.getBook(userId, it) }
             if (existingBook != null) {
@@ -142,7 +196,7 @@ class BookDetailActivity : AppCompatActivity() {
     private fun addToFinishedReading(book: Book) {
         val userId = getCurrentUserId()
         val finishedReadingBook = FinishedReadingBook(0, userId, book.title, book.author,
-            book.cover)
+            book.cover, book.publisher, book.isbn, book.yearOfPublication)
         CoroutineScope(Dispatchers.IO).launch {
             val existingBook = book.title?.let { finishedReadingBookDao.getBook(userId, it) }
             if (existingBook != null) {

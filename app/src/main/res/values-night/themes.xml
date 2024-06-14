@@ -1,7 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Memorabilia.Dark" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/Purple</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
@@ -9,7 +7,8 @@
         <item name="colorSecondaryVariant">@color/white</item>
         <item name="colorOnSecondary">@color/darkColor</item>
         <item name="android:statusBarColor">@color/darkColor</item>
-        <item name="android:textColorPrimary">@color/white</item>
+
+
         <item name="android:textColor">@color/white</item>
     </style>
 

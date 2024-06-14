@@ -1,11 +1,13 @@
 package com.example.memorabilia.main
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.memorabilia.R
@@ -34,11 +36,19 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.BookViewHolder>() {
             .error(R.drawable.ic_launcher_background) // Error image
             .into(holder.bookImageView)
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, BookDetailActivity::class.java)
+        holder.itemView.setOnClickListener { view ->
+            val intent = Intent(view.context, BookDetailActivity::class.java)
             intent.putExtra("book", book)
-            it.context.startActivity(intent)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                view.context as Activity,
+                view.findViewById<View>(R.id.bookImageView), // View yang ingin di-share
+                "bookImageTransition" // Nama transisi (harus sama dengan nama yang didefinisikan di layout)
+            )
+
+            view.context.startActivity(intent, options.toBundle())
         }
+
     }
 
     override fun getItemCount(): Int {

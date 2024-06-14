@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_guide"
             android:textSize="24sp"
+            android:textColor="?attr/colorOnBackground"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
@@ -73,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/overview_content"
                     android:textSize="16sp"
+                    android:textColor="?attr/colorOnBackground"
                     android:paddingBottom="16dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -106,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/search_feature_content"
                     android:textSize="16sp"
+                    android:textColor="?attr/colorOnBackground"
                     android:paddingBottom="16dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -139,6 +142,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/currently_reading_feature_content"
                     android:textSize="16sp"
+                    android:textColor="?attr/colorOnBackground"
                     android:paddingBottom="16dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -172,6 +176,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/finished_reading_feature_content"
                     android:textSize="16sp"
+                    android:textColor="?attr/colorOnBackground"
                     android:paddingBottom="16dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

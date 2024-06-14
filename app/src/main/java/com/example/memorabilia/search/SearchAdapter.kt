@@ -1,5 +1,6 @@
 package com.example.memorabilia.search
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.memorabilia.R
@@ -30,11 +32,17 @@ class SearchAdapter(private val context: Context) : RecyclerView.Adapter<SearchA
         val book = books[position]
         holder.bind(book)
 
-        // Set an OnClickListener for the item view
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, BookDetailActivity::class.java)
-            intent.putExtra("book", book) // Pass the Book object to the BookDetailActivity
-            context.startActivity(intent)
+        holder.itemView.setOnClickListener { view ->
+            val intent = Intent(view.context, BookDetailActivity::class.java)
+            intent.putExtra("book", book)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                view.context as Activity,
+                view.findViewById<View>(R.id.bookImageView), // View yang ingin di-share
+                "bookImageTransition" // Nama transisi (harus sama dengan nama yang didefinisikan di layout)
+            )
+
+            view.context.startActivity(intent, options.toBundle())
         }
     }
 

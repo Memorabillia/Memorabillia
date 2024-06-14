@@ -24,17 +24,21 @@
 
             <ImageView
                 android:id="@+id/bookImageView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="250dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
                 android:contentDescription="book_image"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:transitionName="bookImageTransition"/>
 
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp"
+                android:layout_gravity="center"
                 android:textStyle="bold" />
 
             <View
@@ -52,6 +56,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/authorTitle"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
 
             <View
@@ -68,6 +73,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
+                android:textColor="?attr/colorOnBackground"
                 android:textStyle="bold"/>
 
             <TextView
@@ -76,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="30dp"
+                android:textColor="?attr/colorOnBackground"
                 android:text="@string/publisherTitle"
                 android:textSize="20sp" />
 
@@ -94,6 +101,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="16dp"
                 android:textSize="18sp"
+                android:textColor="?attr/colorOnBackground"
                 android:textStyle="bold"/>
 
             <TextView
@@ -103,6 +111,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/isbnTitle"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
 
             <View
@@ -119,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="18sp" />
             <TextView
                 android:id="@+id/yearTitleTextView"
@@ -127,6 +137,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/yearTitle"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="20sp" />
 
             <View
@@ -143,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="18sp" />
 
         </LinearLayout>

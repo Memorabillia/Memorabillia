@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Setup RecyclerView
         val recyclerView = binding.recommendationsRecyclerView
         val layoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = layoutManager

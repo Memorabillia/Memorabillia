@@ -7,11 +7,11 @@
         <item name="colorSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/lightRed</item>
-        <item name="android:statusBarColor">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:statusBarColor">@color/lightGray</item>
 
         <item name="android:fontFamily">@font/poppinssemibold</item>
         <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textColor">@color/black</item>
 
 
     </style>

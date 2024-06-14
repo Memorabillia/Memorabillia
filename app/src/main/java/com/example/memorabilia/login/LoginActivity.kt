@@ -14,6 +14,7 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.ref.WeakReference
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -21,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityLoginBinding
     private var alertDialog: AlertDialog? = null
+    private val activityRef = WeakReference(this@LoginActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +67,8 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 alertDialog?.dismiss()
                 Log.e("LoginActivity", "Login failed: ${e.message}")
-                runOnUiThread {
-                    showAlertDialog("Login failed. Please try again.")
+                activityRef.get()?.runOnUiThread {
+                    activityRef.get()?.showAlertDialog("Login failed. Please try again.")
                 }
             }
 
@@ -118,12 +120,13 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-
     private fun showAlertDialog(message: String) {
-        AlertDialog.Builder(this)
-            .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
+        activityRef.get()?.let { activity ->
+            AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
     }
 
     private fun showLoadingDialog(message: String): AlertDialog {

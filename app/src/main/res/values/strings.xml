@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Memorabilia</string>
-    <string name="welcome">Welcome to Memorabilia!</string>
+    <string name="welcome">Welcome to Memorabilia\!</string>
     <string name="button_Currently_Reading">Currently Reading</string>
     <string name="button_MyBooks">MyBooks</string>
     <string name="button_Want_To_Read">Want To Read</string>
@@ -18,9 +18,9 @@
     <string name="Currently_reading">List of books, you’re currently reading!</string>
     <string name="Currently_reading_title">Currently Reading</string>
     <string name="Finished_reading_title">Finished Reading</string>
-    <string name="Finished_reading">Yay! Here are your finished books!</string>
+    <string name="Finished_reading">Yay! Here are your finished books\!</string>
     <string name="Want_to_read_title">Want To Read</string>
-    <string name="Want_to_read">List of books, you curious about!</string>
+    <string name="Want_to_read">List of books, you are curious about\!</string>
     <string name="title_rv">Title</string>
     <string name="author_rv">Author</string>
     <string name="profile_title">Profile</string>
