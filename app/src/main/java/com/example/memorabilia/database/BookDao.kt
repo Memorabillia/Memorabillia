@@ -46,6 +46,9 @@ interface FinishedReadingBookDao {
     @Query("SELECT * FROM finished_reading WHERE userId = :userId AND title = :title LIMIT 1")
     suspend fun getBook(userId: String, title: String): FinishedReadingBook?
 
+    @Query("UPDATE finished_reading SET notes = :notes WHERE id = :id")
+    suspend fun updateBookNotes(id: Int, notes: String)
+
     @Delete
     suspend fun deleteBook(book: FinishedReadingBook)
 }

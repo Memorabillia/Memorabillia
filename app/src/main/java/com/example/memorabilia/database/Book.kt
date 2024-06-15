@@ -46,4 +46,5 @@ data class CurrentlyReadingBook(
         val publisher : String ?,
         val isbn : String ?,
         val yearOfPublication : String ?,
+        var notes: String ?
     ) : Serializable

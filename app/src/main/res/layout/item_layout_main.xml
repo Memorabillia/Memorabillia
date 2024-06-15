@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="@string/title_rv"
+            android:textColor="@color/title_color"
             android:gravity="center_horizontal"
             android:textSize="16sp"
             android:layout_marginTop="8dp" />

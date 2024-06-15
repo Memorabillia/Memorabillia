@@ -42,7 +42,7 @@
     <string name="currently_reading_feature">Currently Reading Feature</string>
     <string name="currently_reading_feature_content">The Currently Reading feature helps you keep track of books you are currently reading. You can update your progress, and mark books as finished once you complete them.</string>
     <string name="finished_reading_feature">Finished Reading Feature</string>
-    <string name="finished_reading_feature_content">The Finished Reading feature allows you to keep a record of all the books you have finished reading. You can rate the books, leave reviews, and get recommendations for similar books to read next.</string>
+    <string name="finished_reading_feature_content">    The Finished Reading feature allows you to keep a record of all the books you have finished reading. Additionally, you can leave personal notes about each book, helping you remember your thoughts and reflections on the book.</string>
     <string name="our_team">Our Team</string>
     <string name="our_team_content">We are Bangkit Academy students, and this is our capstone project. Our team consists of passionate individuals dedicated to creating a user-friendly app that enhances your reading experience.</string>
     <string name="our_mission">Our Mission</string>
@@ -57,4 +57,6 @@
     <string name="deleteButton">Delete</string>
     <string name="finished">Finished</string>
     <string name="Start_Reading">Start Reading</string>
+    <string name="want_to_read_feature">Want To Read Feature</string>
+    <string name="want_to_read_desc">The Want to Read feature allows you to store a list of books that you plan to read in the future. This feature helps you keep track of books you\'re interested in, making it easy to find and start reading them when you\'re ready. Simply select a book and add it to your Want to Read list for future reference.</string>
 </resources>

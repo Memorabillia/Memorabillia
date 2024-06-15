@@ -205,7 +205,7 @@ class BookDetailActivity : AppCompatActivity() {
     private fun addToFinishedReading(book: Book) {
         val userId = getCurrentUserId()
         val finishedReadingBook = FinishedReadingBook(0, userId, book.title, book.author,
-            book.cover, book.publisher, book.isbn, book.yearOfPublication)
+            book.cover, book.publisher, book.isbn, book.yearOfPublication, "")
         CoroutineScope(Dispatchers.IO).launch {
             val existingBook = book.title?.let { finishedReadingBookDao.getBook(userId, it) }
             if (existingBook != null) {

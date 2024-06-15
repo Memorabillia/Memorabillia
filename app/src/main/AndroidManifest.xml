@@ -36,6 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".finishedreading.FinishedReadingActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".wanttoread.WantToReadActivity"
@@ -45,9 +46,11 @@
             android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".register.RegisterActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".welcome.WelcomeActivity"

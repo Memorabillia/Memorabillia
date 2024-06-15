@@ -2,6 +2,7 @@ package com.example.memorabilia.finishedreading
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -54,6 +55,19 @@ class FinishedReadingActivity : AppCompatActivity() {
             val books = finishedReadingBookDao.getAllBooks(userId)
             withContext(Dispatchers.Main) {
                 adapter.setData(books)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val focusedChild = recyclerView.focusedChild
+        if (focusedChild != null) {
+            val focusedPosition = recyclerView.getChildAdapterPosition(focusedChild)
+            if (focusedPosition != RecyclerView.NO_POSITION) {
+                val notesEditText: EditText = focusedChild.findViewById(R.id.notesEditText)
+                val notes = notesEditText.text.toString()
+                adapter.saveNotesForPosition(focusedPosition, notes)
             }
         }
     }

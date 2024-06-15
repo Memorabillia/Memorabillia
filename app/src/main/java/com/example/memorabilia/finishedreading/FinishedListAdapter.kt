@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -58,10 +59,30 @@ class FinishedListAdapter(private val finishedReadingBookDao: FinishedReadingBoo
 
             view.context.startActivity(intent, options.toBundle())
         }
+        holder.notesEditText.setText(book.notes)
+        holder.notesEditText.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                val updatedNotes = holder.notesEditText.text.toString()
+                book.notes = updatedNotes
+                CoroutineScope(Dispatchers.IO).launch {
+                    finishedReadingBookDao.updateBookNotes(book.id, updatedNotes)
+                }
+            }
+        }
     }
+
+
 
     override fun getItemCount(): Int {
         return books.size
+    }
+
+    fun saveNotesForPosition(position: Int, notes: String) {
+        val book = books[position]
+        book.notes = notes
+        CoroutineScope(Dispatchers.IO).launch {
+            finishedReadingBookDao.updateBookNotes(book.id, notes)
+        }
     }
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -69,6 +90,6 @@ class FinishedListAdapter(private val finishedReadingBookDao: FinishedReadingBoo
         val authorTextView: TextView = itemView.findViewById(R.id.authorTextView)
         val articleImageView: ImageView = itemView.findViewById(R.id.profileImageView)
         val finishedTextView: TextView = itemView.findViewById(R.id.finishedTextView)
-
+        val notesEditText: EditText = itemView.findViewById(R.id.notesEditText)
     }
 }
