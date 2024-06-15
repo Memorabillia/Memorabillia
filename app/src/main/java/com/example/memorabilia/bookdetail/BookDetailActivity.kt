@@ -3,16 +3,15 @@ package com.example.memorabilia.bookdetail
 import android.content.Context
 import android.os.Bundle
 import android.transition.ChangeBounds
-import android.transition.TransitionInflater
 import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -44,6 +43,8 @@ class BookDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         val transition = ChangeBounds()
         transition.duration = 500

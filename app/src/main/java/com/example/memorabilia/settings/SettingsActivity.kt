@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.data.Repository
+import com.example.memorabilia.data.UserPreference
+import com.example.memorabilia.data.dataStore
 import com.example.memorabilia.di.Injection
 import com.example.memorabilia.main.MainActivity
 import com.example.memorabilia.search.SearchActivity
@@ -23,8 +25,9 @@ import com.google.android.material.button.MaterialButton
 class SettingsActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<SettingsViewModel> {
-        ViewModelFactory.getInstance(this)
+        ViewModelFactory.getInstance(applicationContext)
     }
+
 
 
     private lateinit var repository: Repository
@@ -35,8 +38,9 @@ class SettingsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
 
+        val pref = UserPreference.getInstance(application.dataStore)
         repository = Injection.provideRepository(this)
-        themeViewModel = ViewModelProvider(this, ViewModelFactory(this, repository)).get(ThemeViewModel::class.java)
+        themeViewModel = ViewModelProvider(this, ViewModelFactory(repository,pref)).get(ThemeViewModel::class.java)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
@@ -98,13 +102,9 @@ class SettingsActivity : AppCompatActivity() {
         }
         val logoutButton = findViewById<MaterialButton>(R.id.LogoutButton)
         logoutButton.setOnClickListener {
-            // Change the theme to light mode
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            // Save the theme setting to the data store
             themeViewModel.saveThemeSetting(false)
-            // Log out the user
             viewModel.logout()
-            // Start the WelcomeActivity
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

@@ -1,6 +1,7 @@
 package com.example.memorabilia.di
 
 import android.content.Context
+import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.data.Repository
 import com.example.memorabilia.data.UserPreference
@@ -14,6 +15,8 @@ object Injection {
         val pref = UserPreference.getInstance(appContext.dataStore)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        return Repository.getInstance(apiService, pref, user.token)
+        val repository = Repository.getInstance(apiService, pref, user.token)
+        return repository
     }
+
 }

@@ -1,11 +1,22 @@
 package com.example.memorabilia.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
+import android.widget.ImageView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.data.UserModel
 import com.example.memorabilia.databinding.ActivityLoginBinding
@@ -24,12 +35,16 @@ class LoginActivity : AppCompatActivity() {
     private var alertDialog: AlertDialog? = null
     private val activityRef = WeakReference(this@LoginActivity)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupAction()
+        rotateCloud(binding.cloudTop, -1.5f,false)
+
+    setupAction()
     }
 
     private fun setupAction() {
@@ -145,5 +160,35 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         alertDialog?.dismiss()
         super.onDestroy()
+    }
+
+    private fun rotateCloud(view: View, scaleFactor: Float, reverse: Boolean) {
+        val rotationAnimator = if (reverse) {
+            ObjectAnimator.ofFloat(view, "rotation", 0f, -360f)
+        } else {
+            ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
+        }.apply {
+            duration = 10000
+            repeatCount = ObjectAnimator.INFINITE
+            interpolator = LinearInterpolator()
+        }
+
+        val scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", scaleFactor).apply {
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            duration = 6000
+            interpolator = LinearInterpolator()
+        }
+
+        val scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", scaleFactor).apply {
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            duration = 6000
+            interpolator = LinearInterpolator()
+        }
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(rotationAnimator, scaleXAnimator, scaleYAnimator)
+        animatorSet.start()
     }
 }

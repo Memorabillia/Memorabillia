@@ -34,6 +34,7 @@ class WantToReadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_want_to_read)
 
         userPreference = UserPreference.getInstance(this.dataStore)

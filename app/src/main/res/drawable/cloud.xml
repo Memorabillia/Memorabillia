@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="200dp"
+    android:viewportWidth="300"
+    android:viewportHeight="200">
+
+    <!-- Shadow Layer -->
+    <path
+        android:fillColor="#D12350"
+        android:pathData="M40,180c0,0 -30,-20 -30,-50 0,-40 40,-50 50,-70 0,-30 40,-50 70,-50 30,0 60,30 60,50 30,0 60,40 60,70 0,50 -50,60 -90,60 -40,0 -60,-30 -80,-30 -30,0 -40,20 -40,20z"/>
+
+    <!-- Base Cloud Layer -->
+    <path
+        android:fillColor="@color/lightRed"
+        android:pathData="M60,160c0,0 -20,-10 -20,-40 0,-30 30,-40 40,-60 0,-20 30,-40 60,-40 20,0 50,20 50,40 20,0 50,30 50,60 0,40 -40,50 -80,50 -30,0 -50,-20 -70,-20 -20,0 -30,10 -30,10z"/>
+</vector>

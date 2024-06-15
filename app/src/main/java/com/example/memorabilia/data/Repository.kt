@@ -43,13 +43,7 @@ class Repository(
         this.apiService = ApiConfig.getApiService(token)
     }
 
-    fun getThemeSetting(): Flow<Boolean> {
-        return userPreference.getThemeSetting()
-    }
 
-    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
-        userPreference.saveThemeSetting(isDarkModeActive)
-    }
 
     suspend fun getBookRecommendations(): List<Book> {
         val response = apiService.getBookRecommendations()

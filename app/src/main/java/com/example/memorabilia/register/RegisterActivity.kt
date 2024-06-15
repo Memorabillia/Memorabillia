@@ -1,11 +1,16 @@
 package com.example.memorabilia.register
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.databinding.ActivityRegisterBinding
 import com.example.memorabilia.login.LoginActivity
@@ -28,8 +33,12 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        rotateCloud(binding.cloudTop, -1.5f,false)
+
 
         setupAction()
     }
@@ -103,5 +112,35 @@ class RegisterActivity : AppCompatActivity() {
     override fun onDestroy() {
         alertDialog?.dismiss()
         super.onDestroy()
+    }
+
+    private fun rotateCloud(view: View, scaleFactor: Float, reverse: Boolean) {
+        val rotationAnimator = if (reverse) {
+            ObjectAnimator.ofFloat(view, "rotation", 0f, -360f)
+        } else {
+            ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
+        }.apply {
+            duration = 10000
+            repeatCount = ObjectAnimator.INFINITE
+            interpolator = LinearInterpolator()
+        }
+
+        val scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", scaleFactor).apply {
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            duration = 6000
+            interpolator = LinearInterpolator()
+        }
+
+        val scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", scaleFactor).apply {
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            duration = 6000
+            interpolator = LinearInterpolator()
+        }
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(rotationAnimator, scaleXAnimator, scaleYAnimator)
+        animatorSet.start()
     }
 }

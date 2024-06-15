@@ -35,6 +35,7 @@ class FinishedReadingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_finished_reading)
 
         userPreference = UserPreference.getInstance(this.dataStore)

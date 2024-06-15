@@ -8,14 +8,14 @@ import com.example.memorabilia.data.Repository
 import com.example.memorabilia.data.UserPreference
 import kotlinx.coroutines.launch
 
-class ThemeViewModel(private val repository: Repository) : ViewModel() {
+class ThemeViewModel(private val pref: UserPreference) : ViewModel() {
     fun getThemeSettings(): LiveData<Boolean> {
-        return repository.getThemeSetting().asLiveData()
+        return pref.getThemeSetting().asLiveData()
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
-            repository.saveThemeSetting(isDarkModeActive)
+            pref.saveThemeSetting(isDarkModeActive)
         }
     }
 }
