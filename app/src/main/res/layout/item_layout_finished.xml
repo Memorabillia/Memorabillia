@@ -94,7 +94,17 @@
 
         </LinearLayout>
 
-
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/delete_logoo"
+            android:background="@drawable/round_corners_item"
+            android:contentDescription="@string/deleteButton" />
     </LinearLayout>
 
     <EditText

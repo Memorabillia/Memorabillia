@@ -69,6 +69,23 @@ class FinishedListAdapter(private val finishedReadingBookDao: FinishedReadingBoo
                 }
             }
         }
+
+        holder.deleteButton.setOnClickListener {
+            AlertDialog.Builder(it.context)
+                .setTitle("Delete Book")
+                .setMessage("Are you sure you want to delete this book?")
+                .setPositiveButton("Yes") { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        finishedReadingBookDao.deleteBook(book)
+                        withContext(Dispatchers.Main) {
+                            books = books.filter { it.id != book.id }
+                            notifyDataSetChanged()
+                        }
+                    }
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
     }
 
 
@@ -91,5 +108,6 @@ class FinishedListAdapter(private val finishedReadingBookDao: FinishedReadingBoo
         val articleImageView: ImageView = itemView.findViewById(R.id.profileImageView)
         val finishedTextView: TextView = itemView.findViewById(R.id.finishedTextView)
         val notesEditText: EditText = itemView.findViewById(R.id.notesEditText)
+        val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
     }
 }
