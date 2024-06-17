@@ -47,6 +47,7 @@ class FinishedReadingActivity : AppCompatActivity() {
         adapter = FinishedListAdapter(finishedReadingBookDao)
         recyclerView.adapter = adapter
         displayFinishedReadingBooks()
+
     }
 
     private fun displayFinishedReadingBooks() {
@@ -58,6 +59,7 @@ class FinishedReadingActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onPause() {
         super.onPause()

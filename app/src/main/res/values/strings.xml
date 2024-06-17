@@ -59,4 +59,7 @@
     <string name="Start_Reading">Start Reading</string>
     <string name="want_to_read_feature">Want To Read Feature</string>
     <string name="want_to_read_desc">The Want to Read feature allows you to store a list of books that you plan to read in the future. This feature helps you keep track of books you\'re interested in, making it easy to find and start reading them when you\'re ready. Simply select a book and add it to your Want to Read list for future reference.</string>
+    <string name="Appearence">Appearance</string>
+    <string name="Dark_mode_text">Dark Mode</string>
+    <string name="Light_mode_text">Light Mode</string>
 </resources>
