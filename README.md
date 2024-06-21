@@ -14,7 +14,7 @@ Capstone Team ID: C241-PS182
 ---
 
 ## Introduction
-Memorabilia is a project aimed at enhancing reader engagement by leveraging progress tracking and personalized recommendations. Our platform integrates various cloud services and tools to provide a seamless and efficient user experience.
+Memorabilia is a project aimed at enhancing reader engagement by leveraging progress tracking and personalized recommendations. 
 
 ---
 
