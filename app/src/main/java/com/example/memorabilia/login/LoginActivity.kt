@@ -2,21 +2,15 @@ package com.example.memorabilia.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
-import android.view.animation.TranslateAnimation
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import com.example.memorabilia.R
 import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.data.UserModel
 import com.example.memorabilia.databinding.ActivityLoginBinding

@@ -12,15 +12,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.memorabilia.R
 import com.example.memorabilia.bookdetail.BookDetailActivity
 import com.example.memorabilia.database.FinishedReadingBook
 import com.example.memorabilia.database.FinishedReadingBookDao
-import com.example.memorabilia.database.WantToReadBook
-import com.example.memorabilia.database.WantToReadBookDao
-import com.example.memorabilia.search.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

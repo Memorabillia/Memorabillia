@@ -1,6 +1,5 @@
 package com.example.memorabilia.wanttoread
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -11,12 +10,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memorabilia.R
-import com.example.memorabilia.currentlyreading.CurrentlyReadingAdapter
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.database.BookDatabase
 import com.example.memorabilia.database.CurrentlyReadingBookDao
 import com.example.memorabilia.database.WantToReadBookDao
-import com.example.memorabilia.search.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull

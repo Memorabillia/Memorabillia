@@ -3,9 +3,6 @@ package com.example.memorabilia
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.example.memorabilia.data.Repository
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.data.dataStore

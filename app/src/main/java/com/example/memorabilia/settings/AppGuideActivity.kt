@@ -18,11 +18,9 @@ class AppGuideActivity : AppCompatActivity() {
         val view = findViewById<View>(R.id.sVAppGuide)
         view?.let {
             ViewCompat.setOnApplyWindowInsetsListener(it) { v, insets ->
-                // your code here
                 insets
             }
         } ?: run {
-            // Handle the case where the view is null
             Log.e("AppGuideActivity", "View with ID 'sVAppGuide' not found in the layout.")
         }
     }

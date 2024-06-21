@@ -55,17 +55,13 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
                 .setMessage("Are you sure you want to move this book to the 'Finished Reading' list?")
                 .setPositiveButton("Yes") { _, _ ->
                     CoroutineScope(Dispatchers.IO).launch {
-                        // Create a new FinishedReadingBook object with the same details as the CurrentlyReadingBook object
                         val finishedReadingBook = FinishedReadingBook(0, book.userId, book.title, book.author, book.cover, book.publisher, book.isbn, book.yearOfPublication,"")
 
-                        // Insert the FinishedReadingBook object into the FinishedReadingBookDao
                         finishedReadingBookDao.insertFinishedReading(finishedReadingBook)
 
-                        // Delete the CurrentlyReadingBook object from the CurrentlyReadingBookDao
                         currentlyReadingBookDao.deleteBook(book)
 
                         withContext(Dispatchers.Main) {
-                            // Remove the book from the list and notify the adapter
                             books = books.filter { it.id != book.id }
                             notifyDataSetChanged()
                         }
@@ -99,11 +95,9 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // No action needed here
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // No action needed here
             }
         })
         holder.deleteButton.setOnClickListener {
@@ -114,7 +108,6 @@ class CurrentlyReadingAdapter(private val currentlyReadingBookDao: CurrentlyRead
                     CoroutineScope(Dispatchers.IO).launch {
                         currentlyReadingBookDao.deleteBook(book)
                         withContext(Dispatchers.Main) {
-                            // Remove the book from the list and notify the adapter
                             books = books.filter { it.id != book.id }
                             notifyDataSetChanged()
                         }

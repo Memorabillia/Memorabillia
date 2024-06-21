@@ -7,22 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.memorabilia.R
 import com.example.memorabilia.bookdetail.BookDetailActivity
 import com.example.memorabilia.database.CurrentlyReadingBook
 import com.example.memorabilia.database.CurrentlyReadingBookDao
-import com.example.memorabilia.database.FinishedReadingBook
 import com.example.memorabilia.database.WantToReadBook
 import com.example.memorabilia.database.WantToReadBookDao
-import com.example.memorabilia.search.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,17 +66,13 @@ class WantToReadAdapter(private val wantToReadBookDao: WantToReadBookDao,
                 .setMessage("Are you sure you want to move this book to the 'Currently Reading' list?")
                 .setPositiveButton("Yes") { _, _ ->
                     CoroutineScope(Dispatchers.IO).launch {
-                        // Create a new FinishedReadingBook object with the same details as the CurrentlyReadingBook object
                         val currentlyReadingBook = CurrentlyReadingBook(0, book.userId, book.title, book.author, book.cover, book.publisher, book.isbn, book.yearOfPublication, 0 )
 
-                        // Insert the FinishedReadingBook object into the FinishedReadingBookDao
                         currentlyReadingBookDao.insertCurrentlyReadingBook(currentlyReadingBook)
 
-                        // Delete the CurrentlyReadingBook object from the CurrentlyReadingBookDao
                         wantToReadBookDao.deleteBook(book)
 
                         withContext(Dispatchers.Main) {
-                            // Remove the book from the list and notify the adapter
                             books = books.filter { it.id != book.id }
                             notifyDataSetChanged()
                         }
@@ -98,7 +90,6 @@ class WantToReadAdapter(private val wantToReadBookDao: WantToReadBookDao,
                     CoroutineScope(Dispatchers.IO).launch {
                         wantToReadBookDao.deleteBook(book)
                         withContext(Dispatchers.Main) {
-                            // Remove the book from the list and notify the adapter
                             books = books.filter { it.id != book.id }
                             notifyDataSetChanged()
                         }

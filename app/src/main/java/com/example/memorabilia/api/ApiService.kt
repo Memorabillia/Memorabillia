@@ -20,8 +20,6 @@ interface ApiService {
         @Field("password") password: String?
     ): Call<RegisterResponse>
 
-
-
     @FormUrlEncoded
     @POST("login")
     fun userLogin(
@@ -29,12 +27,10 @@ interface ApiService {
         @Field("password") password: String?
     ): Call<LoginResponse>
 
-
     @GET("books")
     suspend fun searchBooks(
         @Query("q") query: String
     ): Response<List<Book>>
-
 
     @POST("recommend")
     suspend fun getBookRecommendations(

@@ -58,7 +58,7 @@ class WelcomeActivity : AppCompatActivity() {
         } else {
             ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
         }.apply {
-            duration = 10000 // 10 seconds
+            duration = 10000
             repeatCount = ObjectAnimator.INFINITE
             interpolator = LinearInterpolator()
         }
@@ -66,14 +66,14 @@ class WelcomeActivity : AppCompatActivity() {
         val scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", scaleFactor).apply {
             repeatMode = ObjectAnimator.REVERSE
             repeatCount = ObjectAnimator.INFINITE
-            duration = 3000 // 3 seconds
+            duration = 3000
             interpolator = LinearInterpolator()
         }
 
         val scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", scaleFactor).apply {
             repeatMode = ObjectAnimator.REVERSE
             repeatCount = ObjectAnimator.INFINITE
-            duration = 3000 // 3 seconds
+            duration = 3000
             interpolator = LinearInterpolator()
         }
 

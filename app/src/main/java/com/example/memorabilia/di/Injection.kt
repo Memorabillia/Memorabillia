@@ -1,7 +1,6 @@
 package com.example.memorabilia.di
 
 import android.content.Context
-import com.example.memorabilia.ViewModelFactory
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.data.Repository
 import com.example.memorabilia.data.UserPreference

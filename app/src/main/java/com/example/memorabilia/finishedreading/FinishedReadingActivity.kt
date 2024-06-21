@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -16,9 +14,6 @@ import com.example.memorabilia.R
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.database.BookDatabase
 import com.example.memorabilia.database.FinishedReadingBookDao
-import com.example.memorabilia.database.WantToReadBookDao
-import com.example.memorabilia.search.SearchAdapter
-import com.example.memorabilia.wanttoread.WantToReadAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull

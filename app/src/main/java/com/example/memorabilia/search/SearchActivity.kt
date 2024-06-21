@@ -17,7 +17,6 @@ import com.example.memorabilia.R
 import com.example.memorabilia.api.ApiConfig
 import com.example.memorabilia.api.ApiService
 import com.example.memorabilia.api.response.Book
-import com.example.memorabilia.api.response.BookResponse
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.data.dataStore
 import com.example.memorabilia.main.MainActivity

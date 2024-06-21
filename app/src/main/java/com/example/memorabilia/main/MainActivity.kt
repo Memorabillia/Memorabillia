@@ -1,7 +1,5 @@
 package com.example.memorabilia.main
 
-
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,7 +23,6 @@ import com.example.memorabilia.currentlyreading.CurrentlyReadingActivity
 import com.example.memorabilia.data.UserPreference
 import com.example.memorabilia.data.dataStore
 import com.example.memorabilia.databinding.ActivityMainBinding
-import com.example.memorabilia.di.Injection
 import com.example.memorabilia.finishedreading.FinishedReadingActivity
 import com.example.memorabilia.search.SearchActivity
 import com.example.memorabilia.settings.SettingsActivity
@@ -54,13 +51,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check if the user is logged in
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             } else {
-                viewModel.fetchBookRecommendations() // Fetch book recommendations when user is logged in
+                viewModel.fetchBookRecommendations()
             }
         }
 
@@ -114,8 +110,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-        // Setup BottomNavigationView
         val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.selectedItemId = R.id.homenav
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->

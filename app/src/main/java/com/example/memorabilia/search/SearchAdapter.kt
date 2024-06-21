@@ -38,8 +38,8 @@ class SearchAdapter(private val context: Context) : RecyclerView.Adapter<SearchA
 
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 view.context as Activity,
-                view.findViewById<View>(R.id.bookImageView), // View yang ingin di-share
-                "bookImageTransition" // Nama transisi (harus sama dengan nama yang didefinisikan di layout)
+                view.findViewById<View>(R.id.bookImageView),
+                "bookImageTransition"
             )
 
             view.context.startActivity(intent, options.toBundle())
